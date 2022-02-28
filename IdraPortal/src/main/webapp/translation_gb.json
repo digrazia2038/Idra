@@ -22,6 +22,7 @@
 	"metadataCategories":"Categories",
 	
 	"liveEnabled" :"Search On",
+	"operator" :"Operator",
 	"liveEnabledMex":"Live search: Inner sort by catalogue",
 	"sortBy" :"Sort By",
 	"resPerPage":"Max results per page",
