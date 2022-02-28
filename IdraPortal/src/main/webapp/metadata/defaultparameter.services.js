@@ -84,6 +84,8 @@ function DefaultParameter($log){
 	
 	var searchOn=[{"value":false,"text":"Cache"},{"value":true,"text":"Live"}];
 	
+	var operator=[{"value":"AND","text":"AND"},{"value":"OR","text":"OR"}];
+	
 	var optionItems=[{"value":"ALL","text":"All"},
 					{"value":"description","text":"Description"},
 					{"value":"tags","text":"Tags"},
@@ -121,6 +123,9 @@ function DefaultParameter($log){
 			},
 			getDcatThemes: function(){
 				return dcatThemes;
+			},
+			getOperator: function(){
+				return operator;
 			}
 			
 	};
@@ -137,7 +142,8 @@ function DefaultParameter($log){
 			searchOn:searchOn,
 			optionItems:optionItems,
 			numberOfResults:numberOfResults,
-			dcatThemes:dcatThemes
+			dcatThemes:dcatThemes,
+			operator:operator
 		};
 	};
 

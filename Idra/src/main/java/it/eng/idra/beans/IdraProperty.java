@@ -160,7 +160,10 @@ public enum IdraProperty {
   /** The preview max size. */
   PREVIEW_MAX_SIZE("idra.preview.fileSize"),
   /** The server base url. */
-  IDRA_SERVER_BASEURL("idra.server.baseurl");
+  IDRA_SERVER_BASEURL("idra.server.baseurl"),
+
+  /** The solr server base url. */
+  IDRA_SOLR_URL("idra.solr.url");
 
   /** The text. */
   private final String text;

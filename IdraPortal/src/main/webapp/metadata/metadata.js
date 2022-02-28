@@ -40,6 +40,8 @@ angular.module("IdraPlatform").controller('MetadataCtrl',['$scope','$http','conf
 	$scope.selTargetLanguages = [];
 	$scope.searchOn = parameters.searchOn;
 	$scope.live=$scope.searchOn[0].value;
+	$scope.operators = parameters.operator;
+	$scope.operator = $scope.operators[0].value;
 	$scope.optionItems=parameters.optionItems;
 	$scope.numberOfResults = parameters.numberOfResults;
 	$scope.rows = $scope.numberOfResults[2].value;
@@ -71,6 +73,7 @@ angular.module("IdraPlatform").controller('MetadataCtrl',['$scope','$http','conf
 		$scope.selTargetLanguages = $rootScope.previousContext.selTargetLanguages;
 		$scope.rows = $rootScope.previousContext.rows;
 		$scope.live = $rootScope.previousContext.live;
+		$scope.operator = $rootScope.previousContext.operator;
 		$rootScope.issuedStartDate = $rootScope.previousContext.issuedStartDate;
 		$rootScope.issuedEndDate = $rootScope.previousContext.issuedEndDate;
 		$rootScope.modifiedStartDate = $rootScope.previousContext.modifiedStartDate;
@@ -384,7 +387,8 @@ angular.module("IdraPlatform").controller('MetadataCtrl',['$scope','$http','conf
 						"euroVoc": $scope.euroVocEnabled,
 						"sourceLanguage": $scope.selSourceLanguage,
 						"targetLanguages": $scope.selTargetLanguages
-					}
+					},
+					'operator': $scope.operator
 				}};
 
 		$rootScope.previousContext = {
@@ -404,7 +408,8 @@ angular.module("IdraPlatform").controller('MetadataCtrl',['$scope','$http','conf
 				rows: $scope.rows,
 				showButton:$scope.showButton,
 				selectedNodeID:$scope.selectedNodeID,
-				allSelectedOption: $scope.allSelectedOption
+				allSelectedOption: $scope.allSelectedOption,
+				operator: $scope.operator
 				
 		}
 		
@@ -467,6 +472,7 @@ angular.module("IdraPlatform").controller('MetadataCtrl',['$scope','$http','conf
 		$scope.euroVocEnabled = false;
 		$scope.selSourceLanguage = "";
 		$scope.selTargetLanguages = [];
+		$scope.operator = $scope.operators[0].value;
 		
 		for(i=0; i<$scope.nodes.length; i++){
 			if($scope.selectedNodeID.indexOf($scope.nodes[i].id)<0){

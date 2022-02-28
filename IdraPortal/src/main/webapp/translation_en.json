@@ -23,6 +23,7 @@
 	
 	"liveEnabled" :"Search On",
 	"liveEnabledMex":"Live search: Inner sort by catalogue",
+	"operator" :"Operator",
 	"sortBy" :"Sort By",
 	"resPerPage":"Max results per page",
 	"resPerPageSmall":"Results",

@@ -50,7 +50,7 @@
 								addOnEnter="true" addOnSpace="false"
 								on-tag-added="tagAdded($tag,items[0])"
 								on-tag-removed="tagRemoved($tag,items[0])"></tags-input>
-							<span class="input-group-addon"> <a alt="Search"
+							<span class="input-group-addon"><a alt="Search"
 								href="javascript:void(0)" class="btn-flat "
 								ng-click="executeQuery()" a-disabled="nodes.length ==0"> <i
 									class="mdi-action-search"></i>
@@ -274,6 +274,13 @@
 									translate}}</label> <select name="ordMd" class="form-control"
 									ng-options="option.value as option.text for option in searchOn"
 									ng-model="live">
+								</select>
+							</div>							
+							<div class="col-md-4 col-xs-12">
+								<label class="control-label">{{'operator' |
+									translate}}</label> <select name="op" class="form-control"
+									ng-options="option.value as option.text for option in operators"
+									ng-model="operator">
 								</select>
 							</div>
 						</div>

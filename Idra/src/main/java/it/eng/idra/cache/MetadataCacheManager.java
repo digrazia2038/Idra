@@ -16,6 +16,7 @@
 package it.eng.idra.cache;
 
 import it.eng.idra.beans.IdraProperty;
+import it.eng.idra.beans.Operator;
 import it.eng.idra.beans.dcat.DcatDataset;
 import it.eng.idra.beans.dcat.DcatDistribution;
 import it.eng.idra.beans.dcat.DctLicenseDocument;
@@ -55,6 +56,8 @@ import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.SortClause;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
+import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import org.apache.solr.client.solrj.impl.XMLResponseParser;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.response.UpdateResponse;
@@ -62,6 +65,7 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrException;
 import org.apache.solr.core.CoreContainer;
+import org.apache.solr.response.JSONResponseWriter;
 import org.eclipse.rdf4j.repository.RepositoryException;
 import org.eclipse.rdf4j.rio.RDFParseException;
 
@@ -79,7 +83,7 @@ public class MetadataCacheManager {
       .parseBoolean(PropertyManager.getProperty(IdraProperty.ENABLE_RDF));
 
   /** The server. */
-  private static SolrClient server;
+  private static HttpSolrClient server;
 
   /**
    * Instantiates a new metadata cache manager.
@@ -1026,14 +1030,15 @@ public class MetadataCacheManager {
       }
     }
 
-    String defaultOperator = "AND";
+    //searchParameters.get("");
+    String paramOperator = searchParameters.remove("operator").toString();
     boolean isEurovoc = false;
     logger.info(searchParameters.toString());
     if (searchParameters.containsKey("euroVoc")) {
       isEurovoc = (boolean) searchParameters.remove("euroVoc");
       logger.info("IS EUROVOC: " + isEurovoc);
       if (isEurovoc) {
-        defaultOperator = "OR";
+        paramOperator = "OR";
       }
     }
 
@@ -1055,7 +1060,7 @@ public class MetadataCacheManager {
           // queryString += "(" + (isFirst ? "" : " OR ") + "*" +
           // ((String) value).replaceAll("\\s", "*") + "*" + ")";
 
-          queryString += (isFirst ? "" : " AND ");
+          queryString += (isFirst ? "" : " " + paramOperator + " ");
 
           // queryString += Arrays.asList(((String)
           // value).split(",")).stream()
@@ -1063,7 +1068,7 @@ public class MetadataCacheManager {
           // "*")).collect(Collectors.joining("* OR *", "(*", "*)"));
 
           queryString += "*:" + Arrays.asList(((String) value).split(",")).stream()
-              .collect(Collectors.joining("\" " + defaultOperator + " \"", "(\"", "\")"));
+              .collect(Collectors.joining("\" " + paramOperator + " \"", "(\"", "\")"));
 
         } else if (isFirst && queryString.trim().equals("")) {
           queryString += "*:*";
@@ -1081,10 +1086,14 @@ public class MetadataCacheManager {
 
       } else if (key.equals("tags")) {
 
-        queryString += (isFirst ? "" : " AND ") + "keywords" + ":" + "(\""
-            + value.replace(",", "\" AND \"") + "\")";
+        queryString += (isFirst ? "" : " " + paramOperator +  " ") + "keywords" + ":" + "(\""
+            + value.replace(",", "\" " + paramOperator + " \"") + "\")";
         isFirst = false;
 
+      } else if (key.equals("title") || key.equals("description")) {
+        queryString += (isFirst ? "" : " AND ") + key.trim() + ":(\""
+                  + ((String) value).replaceAll(",", "\" " + paramOperator + " \"") + "\")";
+        isFirst = false;
       } else if (!key.equals("sort") && !key.equals("rows") && !key.equals("start")
           && !key.equals("releaseDate") && !key.equals("updateDate")) {
 
@@ -1095,8 +1104,10 @@ public class MetadataCacheManager {
         // queryString += (isFirst ? "" : " AND ") + key.trim() + ":(*"
         // + ((String) value).replaceAll("\\s", "*").replaceAll(",", "*
         // OR *") + "*)";
+        
+        // Building from frontend without filters
         queryString += (isFirst ? "" : " AND ") + key.trim() + ":(\""
-            + ((String) value).replaceAll(",", "\" " + defaultOperator + " \"") + "\")";
+            + ((String) value).replaceAll(",", "\" " + paramOperator + " \"") + "\")";
         isFirst = false;
       }
 
@@ -1398,8 +1409,10 @@ public class MetadataCacheManager {
     // *************** Initializes SOLR Embedded Server
     // ***********************/
     logger.info("SOLR SERVER - init - start");    
-    server = new EmbeddedSolrServer(CoreContainer.createAndLoad(Paths.get(configPath)), "core");
-
+    server = new HttpSolrClient
+       .Builder(PropertyManager.getProperty(IdraProperty.IDRA_SOLR_URL))
+       .build();
+    
     logger.info("SOLR SERVER - init - end");
 
     // ******************************************************/
@@ -1877,6 +1890,6 @@ public class MetadataCacheManager {
     } catch (IOException e) {
       e.printStackTrace();
     }
-  }
-
+  }  
+   
 }

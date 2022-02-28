@@ -15,6 +15,7 @@
 
 package it.eng.idra.beans.search;
 
+import it.eng.idra.beans.Operator;
 import it.eng.idra.utils.JsonRequired;
 import java.util.List;
 
@@ -52,6 +53,9 @@ public class SearchRequest {
   /** The start. */
   @JsonRequired
   private String start;
+  
+  /** The operator. */
+  private Operator operator;
 
   /** The nodes. */
   @JsonRequired
@@ -69,10 +73,11 @@ public class SearchRequest {
    * @param rows          the rows
    * @param start         the start
    * @param nodes         the nodes
+   * @param operator      the operator
    */
   public SearchRequest(List<SearchFilter> filters, SearchDateFilter issued,
       SearchDateFilter modified, boolean live, SearchEuroVocFilter eurovocFilter, SortOption sort,
-      String rows, String start, List<Integer> nodes) {
+      String rows, String start, List<Integer> nodes, Operator operator) {
     super();
     this.filters = filters;
     this.releaseDate = issued;
@@ -82,6 +87,7 @@ public class SearchRequest {
     this.sort = sort;
     this.rows = rows;
     this.start = start;
+    this.operator = operator;
     this.nodes = nodes;
   }
 
@@ -227,6 +233,24 @@ public class SearchRequest {
    */
   public void setStart(String start) {
     this.start = start;
+  }
+  
+  /**
+   * Gets the operator.
+   *
+   * @return the operator
+   */
+  public Operator getOperator() {
+    return operator;
+  }
+
+  /**
+   * Sets the operator.
+   *
+   * @param operator the operator 
+   */
+  public void setOperator(Operator operator) {
+    this.operator = operator;
   }
 
   /**

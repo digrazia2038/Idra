@@ -34,6 +34,19 @@ services :
                 - my_secret_data
                 
             command: --default-authentication-plugin=mysql_native_password --lower_case_table_names=1
+    solr:
+            container_name: idra-solr
+            image: solr:8.11.1
+            restart: always
+            ports:
+                - "8983:8983"
+            volumes:
+                - ./Idra/src/main/webapp/WEB-INF/classes/solr/conf:/var/solr/data/idra
+            command:
+                - solr-precreate
+                - idra
+            networks:
+                idra_main:
     rdf4j:
             image: yyz1989/rdf4j
             ports:

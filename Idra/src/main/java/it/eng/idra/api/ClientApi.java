@@ -407,7 +407,6 @@ public class ClientApi {
     SearchDateFilter modified = null;
 
     try {
-
       request = GsonUtil.json2Obj(input, GsonUtil.searchRequestType);
 
       // Gets the source IP address from HTTPRequest
@@ -430,7 +429,11 @@ public class ClientApi {
 
         // Flag for Multilingual EuroVoc search
         searchParameters.put("euroVoc", eurovocFilter.isEuroVoc());
-
+        if (request.getOperator() == null) {
+          searchParameters.put("operator", "AND");
+        } else {
+          searchParameters.put("operator", request.getOperator().operator());
+        }
         if (eurovocFilter.isEuroVoc()) {
           if (eurovocFilter.getSourceLanguage() != null) {
             searchParameters.put("sourceLanguage", eurovocFilter.getSourceLanguage().name());
@@ -492,6 +495,8 @@ public class ClientApi {
 
           ids = request.getNodes();
         }
+        
+        
 
         // Search only on active nodes
         ids = FederationCore.getActiveOdmsCataloguesId(ids);
@@ -504,6 +509,7 @@ public class ClientApi {
         logger.info("Sort :" + request.getSort());
         logger.info("Rows :" + request.getRows());
         logger.info("Start :" + request.getStart());
+        logger.info("Operator :" + request.getOperator());
 
         // Call FederatedSearch method in order to perform the actual
         // search
