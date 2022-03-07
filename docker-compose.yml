@@ -21,7 +21,7 @@ services :
             image: mysql:5.7
             restart: always
             ports:
-                - 3306:3306
+                - 3310:3306
             volumes:
                 - ./opt/idra/mysql-data:/var/lib/mysql
                 - ./idra_db.sql:/docker-entrypoint-initdb.d/idra_db.sql
@@ -41,10 +41,11 @@ services :
             ports:
                 - "8983:8983"
             volumes:
-                - ./Idra/src/main/webapp/WEB-INF/classes/solr/conf:/var/solr/data/idra
-            command:
-                - solr-precreate
-                - idra
+                - ./var/solr/data/idra:/var/solr/data/idra
+            entrypoint:
+                - bash
+                - "-c"
+                - "precreate-core idra; exec solr -f"
             networks:
                 idra_main:
     rdf4j:
@@ -63,6 +64,7 @@ services :
                 - 8080:8080
             depends_on: 
                 - db
+                - solr
                 # - rdf4j
             command: ["./wait-for-it.sh", "db:3306", "--timeout=0", "--", "catalina.sh", "run"]
             
@@ -94,6 +96,8 @@ services :
                 - idm.admin.role.name=Admin
                 - idra.server.baseurl=<IDRA_PROTOCOL>://<IDRA_HOST>
                 - JAVA_OPTS=-Xms1024m -Xmx3g -XX:PermSize=1024m -XX:MaxPermSize=2048m
+                #- idra.solr.url=http://solr:8983/solr/idra
+                #- idra.external.solr.enabled=true
             secrets:
                 - my_secret_data             
             volumes:

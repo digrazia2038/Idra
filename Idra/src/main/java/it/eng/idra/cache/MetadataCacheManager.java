@@ -45,6 +45,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.persistence.EntityExistsException;
 import javax.persistence.RollbackException;
@@ -83,7 +84,7 @@ public class MetadataCacheManager {
       .parseBoolean(PropertyManager.getProperty(IdraProperty.ENABLE_RDF));
 
   /** The server. */
-  private static HttpSolrClient server;
+  private static SolrClient server;
 
   /**
    * Instantiates a new metadata cache manager.
@@ -1031,7 +1032,10 @@ public class MetadataCacheManager {
     }
 
     //searchParameters.get("");
-    String paramOperator = searchParameters.remove("operator").toString();
+    String paramOperator = "";
+    if (searchParameters.get("operator") != null) {
+      paramOperator = searchParameters.remove("operator").toString();
+    }
     boolean isEurovoc = false;
     logger.info(searchParameters.toString());
     if (searchParameters.containsKey("euroVoc")) {
@@ -1406,13 +1410,19 @@ public class MetadataCacheManager {
     logger.info("LOAD CACHE init");
     List<DcatDataset> toLoad;
 
-    // *************** Initializes SOLR Embedded Server
+    // *************** Initializes SOLR Server
     // ***********************/
-    logger.info("SOLR SERVER - init - start");    
-    server = new HttpSolrClient
-       .Builder(PropertyManager.getProperty(IdraProperty.IDRA_SOLR_URL))
-       .build();
-    
+    boolean isExternalEnabled = isExternalSolrServerEnabled(PropertyManager
+                                    .getProperty(IdraProperty.IDRA_EXTERNAL_SOLR_ENABLED), false);
+    if (!isExternalEnabled) {
+      logger.info("EMBEDDED SOLR SERVER - init - start");
+      server = new EmbeddedSolrServer(CoreContainer.createAndLoad(Paths.get(configPath)), "core");
+    } else {
+      logger.info("EXTERNAL SOLR SERVER - init - start");
+      server = new HttpSolrClient
+              .Builder(PropertyManager.getProperty(IdraProperty.IDRA_SOLR_URL))
+              .build();
+    }
     logger.info("SOLR SERVER - init - end");
 
     // ******************************************************/
@@ -1890,6 +1900,10 @@ public class MetadataCacheManager {
     } catch (IOException e) {
       e.printStackTrace();
     }
-  }  
-   
+  }
+  
+  private static boolean isExternalSolrServerEnabled(String value, 
+      boolean defaultValue) {
+	  return (value == null || value.isEmpty() || value.equals("false")) ? defaultValue : Boolean.parseBoolean(value);
+	}
 }

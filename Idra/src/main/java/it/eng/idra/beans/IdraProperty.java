@@ -162,9 +162,11 @@ public enum IdraProperty {
   /** The server base url. */
   IDRA_SERVER_BASEURL("idra.server.baseurl"),
 
-  /** The solr server base url. */
-  IDRA_SOLR_URL("idra.solr.url");
-
+  /** The external solr server base url. */
+  IDRA_SOLR_URL("idra.solr.url"),
+  
+  /** The external solr server enabling flag. */
+  IDRA_EXTERNAL_SOLR_ENABLED("idra.external.solr.enabled");
   /** The text. */
   private final String text;
 
