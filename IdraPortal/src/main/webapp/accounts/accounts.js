@@ -138,7 +138,7 @@
 		
 	}]);
 	
-	angular.module("IdraPlatform").controller('AddAccountsCtrl',['$scope','$http','config','$rootScope','dialogs','$window',function($scope,$http,config,$rootScope,dialogs,$window){
+	angular.module("IdraPlatform").controller('AddAccountsCtrl',['$scope','$http', 'md5', 'config','$rootScope','dialogs','$window',function($scope,$http, md5, config,$rootScope,dialogs,$window){
 		
 		$scope.user={
 				firstname:'',
@@ -239,7 +239,29 @@
 				$scope.messagePassword="";
 				$scope.user.password1Invalid=false;
 				$scope.messagePassword1="";
+			}if(user.password.search(/[a-z]/i) < 0){
+			$scope.user.passwordInvalid=true;
+				$scope.messagePassword="Your password must contain at least one letter.";	
+			}else{
+				
+			}if(user.password.search(/[0-9]/)  < 0){
+				$scope.user.passwordInvalid=true;
+				$scope.messagePassword="Your password must contain at least one digit.";
+			}else{
+				
+			}if(user.password.search(/[a-z]/) < 0){
+				$scope.user.passwordInvalid=true;
+				$scope.messagePassword="Your password must contain at least one lowercase letter";
+			}else{
+				
+			}if(user.password.search(/[A-Z]/) < 0){
+				$scope.user.passwordInvalid=true;
+				$scope.messagePassword="Your password must contain at least one uppercase letter.";
+			}else{ 
+				
 			}
+			
+			
 
 			
 			if($scope.user.usernameInvalid || $scope.user.emailInvalid || $scope.user.firstnameInvalid || $scope.user.lastnameInvalid || $scope.user.passwordInvalid || $scope.user.password1Invalid) return;
@@ -247,15 +269,19 @@
 			if(validateEmailForm(user)){
 			
 				$rootScope.startSpin();
-
 				var req = {
 						method: 'POST',
-						url: config.SERVICES_BASE_URL+config.ADD_ONE_USER_SERVICE,
+						url: config.DASHBOARD_MANAGER_BASE_URL+config.USER_SERVICE_BASE_URL+config.ADD_USER,
 						headers: {
 							'Content-Type': 'application/json'
 						},
 						data:{
-							'user': user
+							'username': user.username,
+							'password': md5.createHash(user.password),
+							'firstname': user.firstname,
+							'lastname': user.lastname,
+							'email': user.email
+							
 						}};
 
 				$http(req).then(function(){

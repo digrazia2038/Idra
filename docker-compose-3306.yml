@@ -41,11 +41,10 @@ services :
             ports:
                 - "8983:8983"
             volumes:
-                - ./var/solr/data/idra:/var/solr/data/idra
-            entrypoint:
-                - bash
-                - "-c"
-                - "precreate-core idra; exec solr -f"
+                - ./Idra/src/main/webapp/WEB-INF/classes/solr/conf:/var/solr/data/idra
+            command:
+                - solr-precreate
+                - idra
             networks:
                 idra_main:
     rdf4j:
@@ -61,16 +60,15 @@ services :
     idra:
             build: .
             ports:
-                - 8082:8080
+                - 8080:8080
             depends_on: 
                 - db
-                - solr
                 # - rdf4j
             command: ["./wait-for-it.sh", "db:3306", "--timeout=0", "--", "catalina.sh", "run"]
             
             environment:
-                - idra.db.host=jdbc:mysql://db:3306/idra_db?serverTimezone=UTC&useLegacyDatetimeCode=false&useEncoding=true&characterEncoding=UTF-8&useSSL=false
-                - idra.db.host.min=jdbc:mysql://db:3306
+                - idra.db.host=jdbc:mysql://db:3310/idra_db?serverTimezone=UTC&useLegacyDatetimeCode=false&useEncoding=true&characterEncoding=UTF-8&useSSL=false
+                - idra.db.host.min=jdbc:mysql://db:3310
                 - idra.db.user_FILE=/run/secrets/my_secret_data
                 - idra.db.password_FILE=/run/secrets/my_secret_data
                 - idra.db.name=idra_db
@@ -96,8 +94,6 @@ services :
                 - idm.admin.role.name=Admin
                 - idra.server.baseurl=<IDRA_PROTOCOL>://<IDRA_HOST>
                 - JAVA_OPTS=-Xms1024m -Xmx3g -XX:PermSize=1024m -XX:MaxPermSize=2048m
-                #- idra.solr.url=http://solr:8983/solr/idra
-                #- idra.external.solr.enabled=true
             secrets:
                 - my_secret_data             
             volumes:

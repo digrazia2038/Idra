@@ -9,6 +9,7 @@
 	"helpMenuManual": "Manuale",
 	"login": "ACCEDI",
 	"login1": "Accedi",
+	"register": "Registrati",
 	"logout": "ESCI",
 	"statistics":"Statistiche",
 	"credits": "Credits",
@@ -199,6 +200,22 @@
 	"manageData": "Gestisci Cataloghi",
 	"manageDatalet": "Gestisci Datalet",
 	"manageConf": "Gestisci Configurazioni",
+
+	
+	"dashboard": "Dashboard",
+	
+	"preferredDataset": "Dataset preferiti",
+	
+	"personalDatalet": "Datalet personali",
+	
+	"userProfile": "Profilo utente",
+	
+	"generalInfo": "Generali",
+	"security": "Sicurezza",
+	"userPreferences": "Preferenze",
+	"others": "Altro",
+	
+	
 	"viewLogs": "Log Idra",
 	"name": "Nome",
 	"host": "Host",

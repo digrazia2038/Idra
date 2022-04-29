@@ -29,7 +29,7 @@
 		<h3 style="margin: 0px 0px 0px 0px" ng-bind-html="dataset.title"></h3>
 		<span class="md-subhead"
 			style="color: #6a6b68; padding-top: 0px; font-size: 12px;"><strong>{{dataset.nodeName}}</strong>
-		</span> </md-card-title-text> </md-card-title> <md-card-content>
+</span> </md-card-title-text> </md-card-title> <md-card-content>
 		<p style="line-height: 1.75em;">
 			<span ng-show="dataset.description!=''" marked="dataset.description">
 			</span> <span ng-show="dataset.description==''">{{'datasetDetailNoDescription'
@@ -44,6 +44,11 @@
 				md-on-select="searchFacet($chip)" readonly="false"> <md-chip-template
 				ng-show="$chip!=''" style="font-size: inherit;cursor: pointer;">
 			<strong>{{$chip}}</strong> </md-chip-template> </md-chips>
+		</div>
+		<div class="row container-fluid"
+			ng-show="dataset.keywords.length>0 || (dataset.keywords.length==1 && dataset.keywords[0]!='')"
+			style="padding: 0px 0px 0px 0px">
+
 		</div>
 
 		<div class="row container-fluid"
@@ -112,8 +117,8 @@
 						</span>
 					</div>
 					<div class="col-lg-3 col-md-3 col-sm-3" hide-xs visible-gt-xs>
-						<a href="javascript:void(0)" class="btn-flat ">
-							<i ng-show="distribution.collapseDetails"
+						<a href="javascript:void(0)" class="btn-flat "> <i
+							ng-show="distribution.collapseDetails"
 							ng-click="distribution.collapseDetails = !distribution.collapseDetails"
 							class="mdi-navigation-expand-more"><md-tooltip>{{'distributionDetailMore'
 								| translate}}</md-tooltip></i> <i ng-show="!distribution.collapseDetails"
@@ -124,23 +129,18 @@
 							class="btn-flat " target="_blank"> <i
 							class="mdi-file-file-download"></i> <md-tooltip>{{'distributionDetailDownload'
 							| translate}}</md-tooltip>
-						</a> 
-						
-						<a href="javascript:void(0)"
+						</a> <a href="javascript:void(0)"
 							a-disabled="!distribution.distributionPreviewOk"
 							ng-show="distribution.previewShowButtonEnabled"
 							ng-click="showPreview(dataset.id,dataset.nodeID,distribution)"
-							class="btn-flat "><span
-							ng-show="!distribution.lockPreview"><i
-								class="mdi-image-remove-red-eye"></i>
-							<md-tooltip>{{'distributionDetailShowPreview' |
-								translate}}</md-tooltip> </span> <span ng-show="distribution.lockPreview"> <img
-								alt="download" title="download" src="images/spinner_synchro.gif"
+							class="btn-flat "><span ng-show="!distribution.lockPreview"><i
+								class="mdi-image-remove-red-eye"></i> <md-tooltip>{{'distributionDetailShowPreview'
+								| translate}}</md-tooltip> </span> <span ng-show="distribution.lockPreview">
+								<img alt="download" title="download"
+								src="images/spinner_synchro.gif"
 								style="width: 20px; vertical-align: unset;"> <md-tooltip>{{'distributionDetailGetFile'
 								| translate}}</md-tooltip>
-						</span> </a>
-						
-						<span> <a ng-show="distribution.dataletShowButtonEnabled"
+						</span> </a> <span> <a ng-show="distribution.dataletShowButtonEnabled"
 							href="javascript:void(0)" class="btn-flat "
 							a-disabled="!distribution.distributionDonwloadUrlOk"> <span
 								ng-show="!distribution.lockFile"> <i
@@ -156,16 +156,14 @@
 							| translate}}</md-tooltip> <md-tooltip
 								ng-show="!distribution.distributionDonwloadUrlOk">{{'distributionDetailUnableDatalet'
 							| translate}}</md-tooltip>
-						</span> 
-						
-						<a href="javascript:void(0)" class="btn-flat ">
-							<i ng-show="distribution.hasDatalets"
+						</span> <a href="javascript:void(0)" class="btn-flat "> <i
+							ng-show="distribution.hasDatalets"
 							ng-click="showDatalets(dataset.id,dataset.nodeID,distribution)"
 							class="mdi-action-open-in-browser"></i> <md-tooltip>{{'distributionDetailShowDatalet'
 							| translate}}</md-tooltip>
-						</a> 
-						
-						
+						</a>
+
+
 					</div>
 					<div collapse="distribution.collapseDetails" class="panel collapse">
 						<div class="panel-body">
@@ -194,18 +192,19 @@
 										<tr ng-show="distribution.accessURL!=''">
 											<td><span style="font-weight: bold;">{{'accessURL'
 													| translate}}</span></td>
-											<td><a href='{{distribution.accessURL}}'
-												target="_blank">{{distribution.accessURL}}</a></td>
+											<td><a href='{{distribution.accessURL}}' target="_blank">{{distribution.accessURL}}</a></td>
 										</tr>
 										<tr
 											ng-show="distribution.license.name!='' || distribution.license.uri!=''">
 											<td><span style="font-weight: bold;">{{'license'
 													| translate}}:</span></td>
-											<td>{{distribution.license.name || distribution.license.uri}}<a
+											<td>{{distribution.license.name ||
+												distribution.license.uri}}<a
 												ng-show="distribution.license.license.uri!=''"
 												href="{{distribution.license.uri}}" class="btn-flat "
 												target="_blank"><i class="mdi-action-open-in-new"
-													style="vertical-align: middle;"></i></a></td>
+													style="vertical-align: middle;"></i></a>
+											</td>
 										</tr>
 										<tr
 											ng-show="distribution.releaseDate!='' && showDate(distribution.releaseDate)">
@@ -420,12 +419,12 @@
 							ng-show="dataset.publisher!=undefined &&  (dataset.publisher.name!='' || dataset.publisher.mbox!='' || dataset.publisher.homepage!='' || dataset.publisher.type!='')">
 							<td><span style="font-weight: bold;">{{'publisher' |
 									translate}}:</span></td>
-							<td><span ng-show="dataset.publisher.name!=''">
-										<a ng-show="dataset.publisher.resourceUri!='' && dataset.publisher.resourceUri!=undefined" href="{{dataset.publisher.resourceUri}}"
-										class="btn-flat " target="_blank">{{dataset.publisher.name}}</a>
-										<span ng-show="dataset.publisher.resourceUri=='' || dataset.publisher.resourceUri==undefined">{{dataset.publisher.name}}</span>
-									</span>
-								<span ng-show="dataset.publisher.mbox!=''">{{dataset.publisher.mbox}}</span>
+							<td><span ng-show="dataset.publisher.name!=''"> <a
+									ng-show="dataset.publisher.resourceUri!='' && dataset.publisher.resourceUri!=undefined"
+									href="{{dataset.publisher.resourceUri}}" class="btn-flat "
+									target="_blank">{{dataset.publisher.name}}</a> <span
+									ng-show="dataset.publisher.resourceUri=='' || dataset.publisher.resourceUri==undefined">{{dataset.publisher.name}}</span>
+							</span> <span ng-show="dataset.publisher.mbox!=''">{{dataset.publisher.mbox}}</span>
 								<span ng-show="dataset.publisher.homepage!=''">{{dataset.publisher.homepage}}</span>
 								<span ng-show="dataset.publisher.type!=''">{{dataset.publisher.type}}</span>
 							</td>
@@ -501,35 +500,39 @@
 						<tr
 							ng-show="dataset.rightsHolder!=undefined && (dataset.rightsHolder.name!='' || dataset.rightsHolder.mbox!='' || dataset.rightsHolder.homepage!='' || dataset.rightsHolder.type!='')">
 							<td><span style="font-weight: bold;">{{'rightsHolder'|translate}}:</span></td>
-							<td><span ng-show="dataset.rightsHolder.name!=''"><a ng-show="dataset.rightsHolder.resourceUri!='' && dataset.rightsHolder.resourceUri!=undefined" href="{{dataset.rightsHolder.resourceUri}}"
-										class="btn-flat " target="_blank">{{dataset.rightsHolder.name}}</a>
-										<span ng-show="dataset.rightsHolder.resourceUri=='' || dataset.rightsHolder.resourceUri==undefined"">{{dataset.rightsHolder.name}}</span>
+							<td><span ng-show="dataset.rightsHolder.name!=''"><a
+									ng-show="dataset.rightsHolder.resourceUri!='' && dataset.rightsHolder.resourceUri!=undefined"
+									href="{{dataset.rightsHolder.resourceUri}}" class="btn-flat "
+									target="_blank">{{dataset.rightsHolder.name}}</a> <span
+									ng-show="dataset.rightsHolder.resourceUri=='' || dataset.rightsHolder.resourceUri==undefined"">{{dataset.rightsHolder.name}}</span>
 							</span><span ng-show="dataset.rightsHolder.mbox!=''">{{dataset.rightsHolder.mbox}}</span>
 								<span ng-show="dataset.rightsHolder.homepage!=''">{{dataset.rightsHolder.homepage}}</span>
 								<span ng-show="dataset.rightsHolder.type!=''">{{dataset.rightsHolder.type}}</span>
 							</td>
 						</tr>
-						
+
 						<tr
 							ng-show="dataset.creator!=undefined && (dataset.creator.name!='' || dataset.creator.mbox!='' || dataset.creator.homepage!='' || dataset.creator.type!='')">
 							<td><span style="font-weight: bold;">{{'creator'|translate}}:</span></td>
-							<td><span ng-show="dataset.creator.name!=''"><a ng-show="dataset.creator.resourceUri!='' && dataset.creator.resourceUri!=undefined" href="{{dataset.creator.resourceUri}}"
-										class="btn-flat " target="_blank">{{dataset.creator.name}}</a>
-										<span ng-show="dataset.creator.resourceUri=='' || dataset.creator.resourceUri==undefined">{{dataset.creator.name}}</span>
+							<td><span ng-show="dataset.creator.name!=''"><a
+									ng-show="dataset.creator.resourceUri!='' && dataset.creator.resourceUri!=undefined"
+									href="{{dataset.creator.resourceUri}}" class="btn-flat "
+									target="_blank">{{dataset.creator.name}}</a> <span
+									ng-show="dataset.creator.resourceUri=='' || dataset.creator.resourceUri==undefined">{{dataset.creator.name}}</span>
 							</span><span ng-show="dataset.creator.mbox!=''">{{dataset.creator.mbox}}</span>
 								<span ng-show="dataset.creator.homepage!=''">{{dataset.creator.homepage}}</span>
 								<span ng-show="dataset.creator.type!=''">{{dataset.creator.type}}</span>
 							</td>
 						</tr>
-						
-<!-- 						<tr ng-show="dataset.creator!=undefined"> -->
-<!-- 							<td><span style="font-weight: bold;">{{'creator'|translate}}:</span></td> -->
-<!-- 							<td>{{dataset.creator.name}} <span -->
-<!-- 								ng-show="dataset.creator.mbox!=''">{{dataset.creator.mbox}}</span> -->
-<!-- 								<span ng-show="dataset.creator.homepage!=''">{{dataset.creator.homepage}}</span> -->
-<!-- 								<span ng-show="dataset.creator.type!=''">{{dataset.creator.type}}</span> -->
-<!-- 							</td> -->
-<!-- 						</tr> -->
+
+						<!-- 						<tr ng-show="dataset.creator!=undefined"> -->
+						<!-- 							<td><span style="font-weight: bold;">{{'creator'|translate}}:</span></td> -->
+						<!-- 							<td>{{dataset.creator.name}} <span -->
+						<!-- 								ng-show="dataset.creator.mbox!=''">{{dataset.creator.mbox}}</span> -->
+						<!-- 								<span ng-show="dataset.creator.homepage!=''">{{dataset.creator.homepage}}</span> -->
+						<!-- 								<span ng-show="dataset.creator.type!=''">{{dataset.creator.type}}</span> -->
+						<!-- 							</td> -->
+						<!-- 						</tr> -->
 						<tr
 							ng-show="dataset.theme.length>1 || (dataset.theme.length==1 && dataset.theme[0].prefLabel.length!=0 && dataset.theme[0].prefLabel[0]!='')">
 							<td><span style="font-weight: bold;">{{'theme'|translate}}:</span></td>

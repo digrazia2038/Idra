@@ -173,7 +173,7 @@ public class User {
    *
    * @param param the new register date
    */
-  private void setRegisterDate(Date param) {
+  public void setRegisterDate(Date param) {
     this.registerDate = param;
   }
 

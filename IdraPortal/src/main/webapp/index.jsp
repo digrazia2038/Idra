@@ -29,8 +29,11 @@
 
 <!-- <link rel="shortcut icon" type="image/png" href="images/icons/favicon-32x32.png"/> -->
 <link rel="stylesheet" href="css/theme.css">
-<link id="CSStheme" href="css/theme.css" type="text/css" rel="stylesheet" />
-<link id="favicon" rel="shortcut icon" href="images/icons/favicon-32x32.png" type="image/png" />
+<link id="CSStheme" href="css/theme.css" type="text/css"
+	rel="stylesheet" />
+<link id="favicon" rel="shortcut icon"
+	href="images/icons/favicon-32x32.png" type="image/png" />
+
 
 <script>
     newFavicon = function () {
@@ -62,24 +65,33 @@
 <link rel="stylesheet" href="css/footer.css">
 <link rel="stylesheet" href="css/gridlist.css">
 
-<link rel="stylesheet" href="bower_components/angular-xeditable/dist/css/xeditable.css">
-<link rel="stylesheet" href="bower_components/ng-tags-input/ng-tags-input.min.css">
-<link rel="stylesheet" href="bower_components/ng-tags-input/ng-tags-input.bootstrap.min.css">
-<link rel="stylesheet" href="bower_components/angular-dialog-service/dist/dialogs.min.css">
+<link rel="stylesheet"
+	href="bower_components/angular-xeditable/dist/css/xeditable.css">
+<link rel="stylesheet"
+	href="bower_components/ng-tags-input/ng-tags-input.min.css">
+<link rel="stylesheet"
+	href="bower_components/ng-tags-input/ng-tags-input.bootstrap.min.css">
+<link rel="stylesheet"
+	href="bower_components/angular-dialog-service/dist/dialogs.min.css">
 <!--    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet"> -->
 <!--    Include roboto.css to use the Roboto web font, material.css to include the theme and ripples.css to style the ripple effect -->
 <!--    Non presenti in bower quindi li lascio per ora -->
 
-<link rel="stylesheet" href="bower_components/angular-material/angular-material.min.css">
+<link rel="stylesheet"
+	href="bower_components/angular-material/angular-material.min.css">
 
 <link rel="stylesheet" href="material-bootstrap/css/roboto.min.css">
 <!--<link rel="stylesheet" href="material-bootstrap/css/material-fullpalette.css">-->
-<link href="material-bootstrap/css/material_original.css" rel="stylesheet">
+<link href="material-bootstrap/css/material_original.css"
+	rel="stylesheet">
 <link rel="stylesheet" href="material-bootstrap/css/ripples.min.css">
 
-<link rel="stylesheet" href="bower_components/ng-img-crop/compile/minified/ng-img-crop.css">
-<link rel="stylesheet" href="bower_components/flag-icon-css/css/flag-icon.min.css">
-<link rel="stylesheet" href="bower_components/angular-ui-switch/angular-ui-switch.css">
+<link rel="stylesheet"
+	href="bower_components/ng-img-crop/compile/minified/ng-img-crop.css">
+<link rel="stylesheet"
+	href="bower_components/flag-icon-css/css/flag-icon.min.css">
+<link rel="stylesheet"
+	href="bower_components/angular-ui-switch/angular-ui-switch.css">
 <link rel="stylesheet" href="bower_components/pdf.js-viewer/viewer.css">
 <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css">
 
@@ -88,25 +100,31 @@
 <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
 <link rel="stylesheet" href="css/navbar.css">
 <link rel="stylesheet" href="css/theme.css">
-
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+.checked {
+	color: orange;
+}
+</style>
 
 
 <style type="text/css">
-
 .modal .form-control {
-    color: rgb(85,85,85);
+	color: rgb(85, 85, 85);
 }
 
 .select-page {
-  width: 50px;
-  text-align: center;
-}
-.pagination li a input {
-  padding: 0;
-  margin: -5px 0;
+	width: 50px;
+	text-align: center;
 }
 
-#toolbarViewerRight{
+.pagination li a input {
+	padding: 0;
+	margin: -5px 0;
+}
+
+#toolbarViewerRight {
 	visibility: hidden;
 }
 
@@ -251,7 +269,6 @@ a.disabled {
 .dialog-header-idra {
 	background-color: #03a9f4;
 }
-
 </style>
 
 <style type="text/css">
@@ -301,9 +318,50 @@ div.m-app-loading p {
 	line-height: 14px;
 	margin: 0px 0px 0px 0px;
 }
+
+.rate {
+	float: left;
+	height: 46px;
+	padding: 0 10px;
+}
+
+.rate:not(:checked)>input {
+	position: absolute;
+	top: -9999px;
+}
+
+.rate:not(:checked)>label {
+	float: right;
+	width: 1em;
+	overflow: hidden;
+	white-space: nowrap;
+	cursor: pointer;
+	font-size: 30px;
+	color: #ccc;
+}
+
+.rate:not(:checked)>label:before {
+	content: '★ ';
+}
+
+.rate>input:checked ~ label {
+	color: #ffc700;
+}
+
+.rate:not(:checked)>label:hover, .rate:not(:checked)>label:hover ~ label
+	{
+	color: #deb217;
+}
+
+.rate>input:checked+label:hover, .rate>input:checked+label:hover ~ label,
+	.rate>input:checked ~ label:hover, .rate>input:checked ~ label:hover ~
+	label, .rate>label:hover ~ input:checked ~ label {
+	color: #c59b08;
+}
 </style>
 
 </head>
+
 <body>
 
 
@@ -313,16 +371,14 @@ div.m-app-loading p {
 		<!--         BEGIN: Actual animated container. -->
 		<div class="animated-container">
 			<div class="messaging hide-xs show-gt-xs">
-			<!-- <img class="img-responsive " src="images/idra_D_v6_black.svg"
+				<!-- <img class="img-responsive " src="images/idra_D_v6_black.svg"
 					style="margin: 0 auto; max-width: 20%;"> -->
-				<img class="img-logo" 
-					style="margin: 0 auto; max-width: 20%;">
+				<img class="img-logo" style="margin: 0 auto; max-width: 20%;">
 				<img class="img-responsive " src="images/spinner_synchro.gif"
 					style="margin: 0 auto; max-width: 2%;">
 			</div>
 			<div class="messaging hide-gt-xs">
-				<img class="img-logo"
-					style="margin: 0 auto; max-width: 50%;">
+				<img class="img-logo" style="margin: 0 auto; max-width: 50%;">
 				<img class="img-responsive " src="images/spinner_synchro.gif"
 					style="margin: 0 auto; max-width: 10%;">
 			</div>
@@ -340,73 +396,107 @@ div.m-app-loading p {
 				<div class="container-fluid" style="margin: 10px 0px 0px 0px;">
 					<div class="navbar-header">
 						<a class="navbar-brand" href="#/metadata"
-							style="margin-left: 5px;">
-						</a>
-						<span class="navbar-title"></span>
-						
-<!-- 						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" -->
-<!-- 							data-target=".navbar-responsive-collapse"> -->
-						<button type="button" class="navbar-toggle collapsed" ng-click="toggleDropdown()">
-							<span class="icon-bar"></span> 
-							<span class="icon-bar"></span> 
-							<span class="icon-bar"></span>
+							style="margin-left: 5px;"> </a> <span class="navbar-title"></span>
+
+						<!-- 						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" -->
+						<!-- 							data-target=".navbar-responsive-collapse"> -->
+						<button type="button" class="navbar-toggle collapsed"
+							ng-click="toggleDropdown()">
+							<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+								class="icon-bar"></span>
 						</button>
 					</div>
-					<div class="navbar-collapse collapse navbar-responsive-collapse" ng-class="{ 'in': isOpen }">
+					<div class="navbar-collapse collapse navbar-responsive-collapse"
+						ng-class="{ 'in': isOpen }">
 						<ul class="nav navbar-nav navbar-right">
 							<li
 								ng-class="{ active: isActive('/metadata') || isActive('/showDatasets') || isActive('/showDatasetDetail') || isActive('/createDatalet') }"><a
-								href="#/metadata"><span class="navbar-link-element">{{'datasetSearch' | translate }}</span></a></li>
+								href="#/metadata"><span class="navbar-link-element">{{'datasetSearch'
+										| translate }}</span></a></li>
 							<li
 								ng-class="{ active: isActive('/sparql') || isActive('/showSparqlResult') }"><a
-								href="#/sparql"><span class="navbar-link-element">{{'SPARQLSearch' | translate }}</span></a></li>
+								href="#/sparql"><span class="navbar-link-element">{{'SPARQLSearch'
+										| translate }}</span></a></li>
 							<li ng-class="{ active: isActive('/viewCatalogues')}"><a
-								href="#/viewCatalogues"><span class="navbar-link-element">{{'DataSources' | translate }}</span></a></li>
+								href="#/viewCatalogues"><span class="navbar-link-element">{{'DataSources'
+										| translate }}</span></a></li>
 							<li ng-class="{ active: isActive('/statistics')}"><a
-								href="#/statistics"><span class="navbar-link-element">{{'statistics' | translate }}</span></a></li>
-							<li dropdown><a href class="dropdown-toggle" dropdown-toggle><span class="navbar-link-element">Help</span><b
-									class="caret"></b></a>
+								href="#/statistics"><span class="navbar-link-element">{{'statistics'
+										| translate }}</span></a></li>
+							<li dropdown><a href class="dropdown-toggle" dropdown-toggle><span
+									class="navbar-link-element">Help</span><b class="caret"></b></a>
 								<ul class="dropdown-menu">
-									<li>
-										<a href="#/about" ng-click="isOpen=!isOpen"><span class="navbar-link-element">About</span></a>
-									</li>
-									<li>
-										<a href="https://idraopendata.docs.apiary.io" target="_blank" ng-click="isOpen=!isOpen"><span class="navbar-link-element">API</span></a>
-									</li>
-									<li>
-										<a href="https://github.com/OPSILab/Idra" target="_blank" ng-click="isOpen=!isOpen"><span class="navbar-link-element">GitHub</span></a>
-									</li>
-									<li>
-										<a href="https://idra.readthedocs.io" target="_blank" ng-click="isOpen=!isOpen"><span class="navbar-link-element">{{'helpMenuManual' | translate }}</span></a>
-									</li>
+									<li><a href="#/about" ng-click="isOpen=!isOpen"><span
+											class="navbar-link-element">About</span></a></li>
+									<li><a href="https://idraopendata.docs.apiary.io"
+										target="_blank" ng-click="isOpen=!isOpen"><span
+											class="navbar-link-element">API</span></a></li>
+									<li><a href="https://github.com/OPSILab/Idra"
+										target="_blank" ng-click="isOpen=!isOpen"><span
+											class="navbar-link-element">GitHub</span></a></li>
+									<li><a href="https://idra.readthedocs.io" target="_blank"
+										ng-click="isOpen=!isOpen"><span
+											class="navbar-link-element">{{'helpMenuManual' |
+												translate }}</span></a></li>
 								</ul></li>
 							<li ng-if="token!=undefined"
 								ng-class="{ active: isActive('/catalogues') || isActive('/node') || isActive('/configuration') || isActive('/logs') || isActive('/statistics') || isActive('/dataletsManagement')}"
-								dropdown><a href class="dropdown-toggle" dropdown-toggle><span class="navbar-link-element">{{'administration' | translate }}</span><b
-									class="caret"></b></a>
+								dropdown><a href class="dropdown-toggle" dropdown-toggle><span
+									class="navbar-link-element">{{'administration' |
+										translate }}</span><b class="caret"></b></a>
 								<ul class="dropdown-menu">
 									<li
 										ng-class="{ active: isActive('/catalogues') || isActive('/addNode') }">
-										<a href="#/catalogues" ng-click="checkRemoteCatalogues()"><span class="navbar-link-element">{{'manageData' | translate }}</span></a>
+										<a href="#/catalogues" ng-click="checkRemoteCatalogues()"><span
+											class="navbar-link-element">{{'manageData' | translate
+												}}</span></a>
 									</li>
 									<li ng-class="{ active: isActive('/configuration')}"><a
-										href="#/configuration"><span class="navbar-link-element">{{'manageConf' | translate }}</span></a></li>
+										href="#/configuration"><span class="navbar-link-element">{{'manageConf'
+												| translate }}</span></a></li>
 									<li ng-show="dataletEnabled"
 										ng-class="{ active: isActive('/dataletsManagement')}"><a
-										href="#/dataletsManagement"><span class="navbar-link-element">{{'manageDatalet' | translate }}</span></a></li>
+										href="#/dataletsManagement"><span
+											class="navbar-link-element">{{'manageDatalet' |
+												translate }}</span></a></li>
 									<li ng-class="{ active: isActive('/logs')}"><a
-										href="#logs"><span class="navbar-link-element">{{'viewLogs' | translate }}</span></a></li>
+										href="#logs"><span class="navbar-link-element">{{'viewLogs'
+												| translate }}</span></a></li>
 								</ul></li>
-								
-							<li dropdown><a href class="dropdown-toggle" dropdown-toggle><span class="flag-icon" ng-class="actLang()"></span><b
-									class="caret"></b></a>
-							<ul class="dropdown-menu">
-									    <li ng-repeat="(key, value) in languages">
-									   		<a href="javascript:void(0)" ng-click="changeLanguage(key)" >
-									        <span id="toEdit" class="flag-icon" ng-class="flagIcon(key)"></span>&nbsp<span class="navbar-link-element">{{value}}</span></a>
-									    </li>
-									
-								</ul></li> 
+							<li ng-if="token!=undefined"
+								ng-class="{ active: isActive('/dashboard') || isActive('/preferred') || isActive('/datalet') || isActive('/profile')}"
+								dropdown><a href class="dropdown-toggle" dropdown-toggle><span
+									class="navbar-link-element">{{'dashboard' |
+										translate }}</span><b class="caret"></b></a>
+								<ul class="dropdown-menu">
+									<li ng-class="{ active: isActive('/preferred')}">
+										<a href="#/preferred"><span
+											class="navbar-link-element">{{'preferredDataset' | translate
+												}}</span></a>
+									</li>
+									<li ng-class="{ active: isActive('/datalet')}">
+										<a href="#/datalet" ng-click="chargePersonalDatalet()"><span
+											class="navbar-link-element">{{'personalDatalet' | translate
+												}}</span></a>
+									</li>
+									<li
+										ng-class="{ active: isActive('/profile')}">
+										<a href="#/profile" ng-click="openProfileDashboard()"><span
+											class="navbar-link-element">{{'userProfile' | translate
+												}}</span></a>
+									</li>
+								</ul></li>
+
+							<li dropdown><a href class="dropdown-toggle" dropdown-toggle><span
+									class="flag-icon" ng-class="actLang()"></span><b class="caret"></b></a>
+								<ul class="dropdown-menu">
+									<li ng-repeat="(key, value) in languages"><a
+										href="javascript:void(0)" ng-click="changeLanguage(key)">
+											<span id="toEdit" class="flag-icon" ng-class="flagIcon(key)"></span>&nbsp<span
+											class="navbar-link-element">{{value}}</span>
+									</a></li>
+
+								</ul></li>
 
 							<li class="loginBtns">
 								<form ng-if="token==undefined" class="navbar-form"
@@ -417,17 +507,18 @@ div.m-app-loading p {
 
 								<form ng-if="token!=undefined" class="navbar-form"
 									ng-controller="LogoutCtrl">
-									<button type="button" class="btn btn-primary btn-raised btn-icon"
+									<button type="button"
+										class="btn btn-primary btn-raised btn-icon"
 										ng-click="logout()">{{'logout' | translate }}</button>
 								</form>
 
 							</li>
 						</ul>
 					</div>
-					<form style="display:none" id="loginform" method="GET" ng-if="token==undefined"
-						class="navbar-form"
+					<form style="display: none" id="loginform" method="GET"
+						ng-if="token==undefined" class="navbar-form"
 						action="<%=PropertyManager.getProperty(IDMProperty.IDM_PROTOCOL) + "://"
-					+ PropertyManager.getProperty(IDMProperty.IDM_HOST) + PropertyManager.getProperty(IDMProperty.IDM_AUTH_PATH)%>">
+		+ PropertyManager.getProperty(IDMProperty.IDM_HOST) + PropertyManager.getProperty(IDMProperty.IDM_AUTH_PATH)%>">
 						<input type="hidden" name="response_type" value="code" /> <input
 							type="hidden" name="client_id"
 							value="<%=PropertyManager.getProperty(IDMProperty.IDM_CLIENT_ID)%>" />
@@ -448,10 +539,11 @@ div.m-app-loading p {
 
 			<div class="us-spinner-wrapper" ng-show="spinneractive">
 
-				<div id="spinner" us-spinner="{radius:25, width:10, length: 20, color: '#00b4ff' }"
+				<div id="spinner"
+					us-spinner="{radius:25, width:10, length: 20, color: '#00b4ff' }"
 					spinner-key="spinner-1"></div>
-					
-			<script type="text/javascript">
+
+				<script type="text/javascript">
 			    newSpinner = function () {
 			        		var rules = document.getElementById('CSStheme').sheet.cssRules;
 			        		var mainColor = window.getComputedStyle(document.documentElement).getPropertyValue('--mainColor');
@@ -466,7 +558,7 @@ div.m-app-loading p {
 				            		 return;
 				            	}();
 			</script>
-					
+
 			</div>
 			<div class="col-md-10 col-md-offset-1" ng-controller="AlertCtrl">
 				<div class="col-md-6 col-md-offset-3">
@@ -476,7 +568,8 @@ div.m-app-loading p {
 				</div>
 			</div>
 
-			<div class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
+			<div
+				class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1 col-sm-offset-1">
 				<div ng-view autoscroll="true"></div>
 			</div>
 		</div>
@@ -487,9 +580,9 @@ div.m-app-loading p {
 
 
 	<!--  FOOTER -->
-	    <div ng-controller="FooterCtrl">
-	  		<footer-detail version="version"></footer-detail>
-		</div>
+	<div ng-controller="FooterCtrl">
+		<footer-detail version="version"></footer-detail>
+	</div>
 	<!-- END FOOTER -->
 
 	<script type="text/ng-template" id="ModalContentSingle.html">
@@ -536,7 +629,7 @@ div.m-app-loading p {
 </div>
 </script>
 
-<script type="text/ng-template" id="ModalDataletAdmin.html">
+	<script type="text/ng-template" id="ModalDataletAdmin.html">
 <div class="modal-header">
 	<button type="button" class="close" aria-hidden="true" ng-click="cancel()">x</button>
     <h3 class="modal-title">{{'dataletDetail' | translate}}</h3>
@@ -585,7 +678,7 @@ div.m-app-loading p {
 </div>
 </script>
 
-<script type="text/ng-template" id="idra_error_dialog.html">
+	<script type="text/ng-template" id="idra_error_dialog.html">
 <div class="modal-header dialog-header-idra">
 	<button type="button" class="close" ng-click="close()">&times;</button>
 	<h4 class="modal-title">
@@ -599,9 +692,9 @@ div.m-app-loading p {
 </div>
 </script>
 
-<!-- PREVIEW TEMPLATES -->
+	<!-- PREVIEW TEMPLATES -->
 
-<script type="text/ng-template" id="TablePreview.html">
+	<script type="text/ng-template" id="TablePreview.html">
 <div class="modal-header">
 	<button type="button" class="close" aria-hidden="true" ng-click="cancel()">x</button>
     <h3 class="modal-title" md-truncate>{{'modalTitlePreview' | translate}}:&nbsp{{title}}</h3>
@@ -634,7 +727,7 @@ div.m-app-loading p {
 </div>
 </script>
 
-<script type="text/ng-template" id="DocumentPreview.html">
+	<script type="text/ng-template" id="DocumentPreview.html">
 <div class="modal-header">
 	<button type="button" class="close" aria-hidden="true" ng-click="cancel()">x</button>
     <h3 class="modal-title" md-truncate>{{'modalTitlePreview' | translate}}:&nbsp{{title}}</h3>
@@ -656,7 +749,7 @@ div.m-app-loading p {
 </div>
 </script>
 
-<script type="text/ng-template" id="PDFPreview.html">
+	<script type="text/ng-template" id="PDFPreview.html">
 <div class="modal-header">
 	<button type="button" class="close" aria-hidden="true" ng-click="cancel()">x</button>
     <h3 class="modal-title" md-truncate>{{'modalTitlePreview' | translate}}:&nbsp{{title}}</h3>
@@ -668,7 +761,7 @@ div.m-app-loading p {
 </div>
 </script>
 
-<script type="text/ng-template" id="GEOJSONPreview.html">
+	<script type="text/ng-template" id="GEOJSONPreview.html">
 <div class="modal-header">
 	<button type="button" class="close" aria-hidden="true" ng-click="cancel()">x</button>
     <h3 class="modal-title" md-truncate>{{'modalTitlePreview' | translate}}:&nbsp{{title}}</h3>
@@ -678,7 +771,7 @@ div.m-app-loading p {
 </div>
 </script>
 
-<script type="text/ng-template" id="CustomPagination.html">
+	<script type="text/ng-template" id="CustomPagination.html">
 <nav ng-if="pages.length >= 2">
   <ul class="pagination">
     <li><a ng-click="selectPage(1)">&lt;&lt;</a>
@@ -690,9 +783,10 @@ div.m-app-loading p {
 </nav>
 </script>
 
-<!-- END PREVIEW TEMPLATES -->
+	<!-- END PREVIEW TEMPLATES -->
 
-	<script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
+	<script type="text/javascript"
+		src="bower_components/jquery/dist/jquery.js"></script>
 	<script type="text/javascript"
 		src="bower_components/angular/angular.js"></script>
 	<script type="text/javascript"
@@ -760,24 +854,37 @@ div.m-app-loading p {
 	<script type="text/javascript"
 		src="bower_components/angular-d3-word-cloud/dist/angular-word-cloud.min.js"></script>
 
-	<script type="text/javascript" src="bower_components/angular-translate/angular-translate.min.js"></script>
-	<script type="text/javascript" src="bower_components/angular-translate-storage-local/angular-translate-storage-local.min.js"></script>
-	<script type="text/javascript" src="bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.min.js"></script>
-	<script type="text/javascript" src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
+	<script type="text/javascript"
+		src="bower_components/angular-translate/angular-translate.min.js"></script>
+	<script type="text/javascript"
+		src="bower_components/angular-translate-storage-local/angular-translate-storage-local.min.js"></script>
+	<script type="text/javascript"
+		src="bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.min.js"></script>
+	<script type="text/javascript"
+		src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
 
-	<script type="text/javascript" src="bower_components/chart.js/dist/Chart.js"></script>
-	<script type="text/javascript" src="bower_components/angular-chart.js/dist/angular-chart.js"></script>
-	
-	<script type="text/javascript" src="bower_components/papaparse/papaparse.min.js"></script>
-	<script type="text/javascript" src="bower_components/angular-papaparse/dist/js/angular-PapaParse.js"></script>
-	
-	<script  type="text/javascript" src="bower_components/pdf.js-viewer/pdf.js"></script>
-    <script  type="text/javascript" src="bower_components/angular-pdfjs-viewer/dist/angular-pdfjs-viewer.js"></script>
-    
-    <script  type="text/javascript" src="bower_components/leaflet/dist/leaflet.js"></script>
-	<script  type="text/javascript" src="bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.min.js"></script>
+	<script type="text/javascript"
+		src="bower_components/chart.js/dist/Chart.js"></script>
+	<script type="text/javascript"
+		src="bower_components/angular-chart.js/dist/angular-chart.js"></script>
 
-	<script  type="text/javascript" src="bower_components/togeojson/togeojson.js"></script>
+	<script type="text/javascript"
+		src="bower_components/papaparse/papaparse.min.js"></script>
+	<script type="text/javascript"
+		src="bower_components/angular-papaparse/dist/js/angular-PapaParse.js"></script>
+
+	<script type="text/javascript"
+		src="bower_components/pdf.js-viewer/pdf.js"></script>
+	<script type="text/javascript"
+		src="bower_components/angular-pdfjs-viewer/dist/angular-pdfjs-viewer.js"></script>
+
+	<script type="text/javascript"
+		src="bower_components/leaflet/dist/leaflet.js"></script>
+	<script type="text/javascript"
+		src="bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.min.js"></script>
+
+	<script type="text/javascript"
+		src="bower_components/togeojson/togeojson.js"></script>
 
 	<script type="text/javascript" src="app.js"></script>
 	<script type="text/javascript" src="catalogues/catalogues.services.js"></script>
@@ -800,9 +907,10 @@ div.m-app-loading p {
 	<script type="text/javascript" src="metadata/metadata.services.js"></script>
 	<script type="text/javascript" src="metadata/metadata.js"></script>
 	<script type="text/javascript" src="metadata/datasetResults.js"></script>
-	
-	<script type="text/javascript" src="templatePreview/template_preview_ctrls.js"></script>
-	
+
+	<script type="text/javascript"
+		src="templatePreview/template_preview_ctrls.js"></script>
+
 	<script type="text/javascript" src="metadata/datasetDetail.js"></script>
 	<script type="text/javascript" src="metadata/datesModIssued.js"></script>
 	<script type="text/javascript" src="metadata/tagCloudController.js"></script>
@@ -811,16 +919,19 @@ div.m-app-loading p {
 	<script type="text/javascript" src="datalets/dataletAdmin.js"></script>
 	<script type="text/javascript" src="logPage/logging.js"></script>
 	<script type="text/javascript" src="credits/credits.js"></script>
-	
+
 	<script type="text/javascript" src="statistics/statistics.services.js"></script>
 	<script type="text/javascript" src="statistics/statistics.js"></script>
-
+    <script type="text/javascript" src="accounts/accounts.js"></script>
 	<script type="text/javascript"
 		src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 	<script type="text/javascript"
 		src="material-bootstrap/js/material.min.js"></script>
 	<script type="text/javascript"
 		src="material-bootstrap/js/ripples.min.js"></script>
+
+	<!-- DashboardManager js component -->
+	<script type="text/javascript" src="dashboardmanager/datasetResults.js"></script>
 
 	<!-- INIT -->
 	<script>
@@ -831,6 +942,7 @@ div.m-app-loading p {
 <%-- 			var sessiontoken = '<%=request.getSession().getAttribute("loggedin")%>'; --%>
 <%-- 			var sessionrefreshtoken = '<%=request.getSession().getAttribute("refresh_token")%>'; --%>
 <%-- 			var sessionusername = '<%=request.getSession().getAttribute("username")%>'; --%>
+
 // 			if (sessiontoken != "null")
 // 				document.cookie = "loggedin="+sessiontoken+";path=/";
 // 			if (sessionrefreshtoken != "null")

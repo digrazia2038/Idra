@@ -19,7 +19,7 @@
 
 	<ul class="breadcrumb">
 		<li class="breadcrumb-item"><a href="#metadata">Home</a></li>
-		<li class="breadcrumb-item active">Datasets</li>
+		<li class="breadcrumb-item active">{{'preferredDataset' | translate}}</li>
 	</ul>
 
 	<div class="row form-inline">
@@ -147,8 +147,7 @@
 						style="color: #6a6b68; padding-top: 0px; font-size: 12px;">
 						<strong>{{dataset.nodeName}}</strong>
 						<div style="float: right;" ng-if="token!=undefined" ng-controller="PreferencesCtrl">
-							<input class="following" type="checkbox" id="{{dataset.id}}" name="{{dataset.id}}" ng-value="dataset" value="{{dataset.id}}" ng-click="togglePreferences($event, dataset)"
-							ng-checked="chargeChecked(dataset.id)">
+							<input class="following" type="checkbox" id="{{dataset.id}}" name="vehicle1" value="{{dataset.id}}" onClick="save(this.value)" ng-click="togglePreferences()">
 							<label for="{{dataset.id}}" value="Follow">Follow</label>
 						</div>
 					</span> </md-card-title-text> </md-card-title> <md-card-content style="padding-bottom:8px">

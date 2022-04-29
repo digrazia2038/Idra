@@ -15,15 +15,15 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-(function(){
-	var app = angular.module("IdraPlatform",['ngRoute','ui.bootstrap','ngAnimate','smart-table','xeditable','ui.ace','angularUtils.directives.dirPagination','angularSpinner','dialogs.main','angular-md5','zeroclipboard','ngTagsInput','ngCookies','ngImgCrop','ngAria','ngMaterial','hc.marked','ngFileSaver','countrySelect','uiSwitch','underscore','angular-d3-word-cloud','pascalprecht.translate','chart.js','ngPapaParse','pdfjsViewer','leaflet-directive']);
-	fetchData().then( setTimeout( bootstrapApplication,1500));
+(function() {
+	var app = angular.module("IdraPlatform", ['ngRoute', 'ui.bootstrap', 'ngAnimate', 'smart-table', 'xeditable', 'ui.ace', 'angularUtils.directives.dirPagination', 'angularSpinner', 'dialogs.main', 'angular-md5', 'zeroclipboard', 'ngTagsInput', 'ngCookies', 'ngImgCrop', 'ngAria', 'ngMaterial', 'hc.marked', 'ngFileSaver', 'countrySelect', 'uiSwitch', 'underscore', 'angular-d3-word-cloud', 'pascalprecht.translate', 'chart.js', 'ngPapaParse', 'pdfjsViewer', 'leaflet-directive']);
+	fetchData().then(setTimeout(bootstrapApplication, 1500));
 
 	function fetchData() {
 		var initInjector = angular.injector(["ng"]);
 		var $http = initInjector.get("$http");
 		return $http.get("LoadConfigs").then(function(response) {
-			app.constant('config',response.data);
+			app.constant('config', response.data);
 		}, function(errorResponse) {
 			// Handle error case
 		});
@@ -38,23 +38,23 @@
 
 	}
 
-//	app.run(['ODMSNodesAPI','$log',function(ODMSNodesAPI,$log) {
-//		$log.info("Building cache");
-//		ODMSNodesAPI.buildCache();
-//	}]);
+	//	app.run(['ODMSNodesAPI','$log',function(ODMSNodesAPI,$log) {
+	//		$log.info("Building cache");
+	//		ODMSNodesAPI.buildCache();
+	//	}]);
 
-	app.run(['config','$location',function(config,$location) {
+	app.run(['config', '$location', function(config, $location) {
 		var adminURL = config.ADMIN_SERVICES_BASE_URL;
-		if(!adminURL.startsWith('http')){
-			config.ADMIN_SERVICES_BASE_URL=$location.protocol() + "://" + $location.host() + ":" + $location.port()+(adminURL.startsWith("/")?"":"/")+adminURL;
+		if (!adminURL.startsWith('http')) {
+			config.ADMIN_SERVICES_BASE_URL = $location.protocol() + "://" + $location.host() + ":" + $location.port() + (adminURL.startsWith("/") ? "" : "/") + adminURL;
 		}
 		var clientURL = config.CLIENT_SERVICES_BASE_URL;
-		if(!config.CLIENT_SERVICES_BASE_URL.startsWith('http')){
-			config.CLIENT_SERVICES_BASE_URL=$location.protocol() + "://" + $location.host() + ":" + $location.port()+(clientURL.startsWith("/")?"":"/")+clientURL;
+		if (!config.CLIENT_SERVICES_BASE_URL.startsWith('http')) {
+			config.CLIENT_SERVICES_BASE_URL = $location.protocol() + "://" + $location.host() + ":" + $location.port() + (clientURL.startsWith("/") ? "" : "/") + clientURL;
 		}
 		var statisticsURL = config.STATISTICS_SERVICES_BASE_URL;
-		if(!config.STATISTICS_SERVICES_BASE_URL.startsWith('http')){
-			config.STATISTICS_SERVICES_BASE_URL=$location.protocol() + "://" + $location.host() + ":" + $location.port()+(statisticsURL.startsWith("/")?"":"/")+statisticsURL;
+		if (!config.STATISTICS_SERVICES_BASE_URL.startsWith('http')) {
+			config.STATISTICS_SERVICES_BASE_URL = $location.protocol() + "://" + $location.host() + ":" + $location.port() + (statisticsURL.startsWith("/") ? "" : "/") + statisticsURL;
 		}
 	}]);
 
@@ -62,31 +62,31 @@
 		uiZeroclipConfigProvider.setZcConf({
 			swfPath: "bower_components/zeroclipboard/dist/ZeroClipboard.swf"
 		});
-	}]).config(['markedProvider', function (markedProvider) {
+	}]).config(['markedProvider', function(markedProvider) {
 		markedProvider.setRenderer({
 			link: function(href, title, text) {
 				return "<a href='" + href + "'" + (title ? " title='" + title + "'" : '') + " target='_blank'>" + text + "</a>";
 			}
 		});
-	}]).config(['$translateProvider', function ($translateProvider) {
-		  $translateProvider.useStaticFilesLoader({
-			  prefix: 'translation_',
-			  suffix:'.json'
-		  });
-		  		 
-		  $translateProvider.preferredLanguage('gb');
-	}]).config(function($logProvider){
-		  $logProvider.debugEnabled(false);
+	}]).config(['$translateProvider', function($translateProvider) {
+		$translateProvider.useStaticFilesLoader({
+			prefix: 'translation_',
+			suffix: '.json'
+		});
+
+		$translateProvider.preferredLanguage('gb');
+	}]).config(function($logProvider) {
+		$logProvider.debugEnabled(false);
 	});
-	
+
 	app.directive('aDisabled', function() {
 		return {
 			compile: function(tElement, tAttrs, transclude) {
 				//Disable ngClick
-				tAttrs["ngClick"] = "!("+tAttrs["aDisabled"]+") && ("+tAttrs["ngClick"]+")";
+				tAttrs["ngClick"] = "!(" + tAttrs["aDisabled"] + ") && (" + tAttrs["ngClick"] + ")";
 
 				//Toggle "disabled" to class when aDisabled becomes true
-				return function (scope, iElement, iAttrs) {
+				return function(scope, iElement, iAttrs) {
 					scope.$watch(iAttrs["aDisabled"], function(newValue) {
 						if (newValue !== undefined) {
 							iElement.toggleClass("disabled", newValue);
@@ -106,37 +106,37 @@
 
 
 	app.directive(
-			"mAppLoading",
-			function( $animate ) {
-				// Return the directive configuration.
-				return({
-					link: link,
-					restrict: "C"
-				});
-				// I bind the JavaScript events to the scope.
-				function link( scope, element, attributes ) {
-					// Due to the way AngularJS prevents animation during the bootstrap
-					// of the application, we can't animate the top-level container; but,
-					// since we added "ngAnimateChildren", we can animated the inner
-					// container during this phase.
-					// --
-					// NOTE: Am using .eq(1) so that we don't animate the Style block.
-					$animate.leave( element.children().eq( 1 ) ).then(
-							function cleanupAfterAnimation() {
-								// Remove the root directive element.
-								element.remove();
-								// Clear the closed-over variable references.
-								scope = element = attributes = null;
-							}
-					);
-				}
+		"mAppLoading",
+		function($animate) {
+			// Return the directive configuration.
+			return ({
+				link: link,
+				restrict: "C"
+			});
+			// I bind the JavaScript events to the scope.
+			function link(scope, element, attributes) {
+				// Due to the way AngularJS prevents animation during the bootstrap
+				// of the application, we can't animate the top-level container; but,
+				// since we added "ngAnimateChildren", we can animated the inner
+				// container during this phase.
+				// --
+				// NOTE: Am using .eq(1) so that we don't animate the Style block.
+				$animate.leave(element.children().eq(1)).then(
+					function cleanupAfterAnimation() {
+						// Remove the root directive element.
+						element.remove();
+						// Clear the closed-over variable references.
+						scope = element = attributes = null;
+					}
+				);
 			}
+		}
 	);
 
 	app.directive('autofocus', ['$timeout', function($timeout) {
 		return {
 			restrict: 'A',
-			link : function($scope, $element) {
+			link: function($scope, $element) {
 				$timeout(function() {
 					//console.log($element);  
 					$element[0].focus();
@@ -151,264 +151,302 @@
 		$anchorScroll.yOffset = 70;   // always scroll by 50 extra pixels
 	}]);
 
-	app.config(['$routeProvider',function($routeProvider){
+	app.config(['$routeProvider', function($routeProvider) {
 		$routeProvider.
-		when('/about',{
-			templateUrl:'about/About.html',
-			controller: 'AboutCtrl'
-		}).
-		when('/metadata',{
-			templateUrl:'metadata/MetadataSearch.html',
-			controller: 'MetadataCtrl'
-		}).
-		when('/showDatasets',{
-			templateUrl:'metadata/ShowMetadataResult2.html',
-			controller:'DataSetCtrl'
-		}).
-		when('/showDatasetDetail',{
-			templateUrl:'metadata/DatasetDetail.html',
-			controller:'DatasetDetailCtrl'
-		}).
-		when('/dataset/:id',{
-			templateUrl:'metadata/DatasetDetail.html',
-			controller:'DatasetDetailCtrl'
-		}).
-		when('/datalets',{
-			templateUrl:'datalets/DataletClient.html',
-			controller:'DataletClientCtrl'
-		}).
-		when('/sparql',{
-			templateUrl:'sparql/SparqlSearch.html',
-			controller: 'SparqlCtrl'
-		}).
-		when('/showSparqlResult',{
-			templateUrl:'sparql/ShowSparqlQueryResult.html',
-			controller:'ShowSparqlCtrl'
-		}).
-		when('/catalogues',{
-			templateUrl:'catalogues/Catalogues.html',
-			controller: 'CataloguesController',
-			resolve:{
-				checkLogin: function( $rootScope,$http,config,$cookies,$window ) {
-					return checkLogin($rootScope,$http,config,$cookies,$window);
-				}
-			}	
-		}).
-		when('/remotes',{
-			templateUrl:'catalogues/RemoteCatalogues.html',
-			controller: 'RemoteCataloguesController',
-			resolve:{
-				checkLogin: function( $rootScope,$http,config,$cookies ) {
-					return checkLogin($rootScope,$http,config,$cookies);
-				}
-			}	
-		}).
-		when('/viewCatalogues',{
-			templateUrl:'catalogues/ViewCatalogues.html',
-			controller: 'ViewCataloguesController'
-		}).
-		when('/login',{
-			templateUrl:'templateHtml/Login.html',
-			controller: 'LoginCtrl'
-		}).
-		when('/catalogue',{
-			templateUrl:'catalogues/Catalogue.html',
-			controller: 'CatalogueCtrl',
-			resolve:{
-				checkLogin: function( $rootScope,$http,config,$cookies,$window ) {
-					return checkLogin($rootScope,$http,config,$cookies,$window);
-				}
-			}
-		}).
-		when('/catalogue/:id',{
-			templateUrl:'catalogues/Catalogue.html',
-			controller: 'CatalogueCtrl',
-			resolve:{
-				checkLogin: function( $rootScope,$http,config,$cookies,$window ) {
-					return checkLogin($rootScope,$http,config,$cookies,$window);
-				}
-			}
-		}).
-		when('/dataletsManagement',{
-			templateUrl:'datalets/DataletAdmin.html',
-			controller:'DataletAdminCtrl',
-			resolve:{
-				checkLogin: function( $rootScope,$http,config,$cookies,$window ) {
-					return checkLogin($rootScope,$http,config,$cookies,$window);
-				}
-			}
-		}).
-		when('/logs',{
-			templateUrl:'logPage/Log.html',
-			controller: 'LogCtrl',
-			resolve:{
-				checkLogin: function( $rootScope,$http,config,$cookies,$window ) {
-					return checkLogin($rootScope,$http,config,$cookies,$window);
-				}
-			}
-		}).
-		when('/configuration',{
-			templateUrl:'configuration/Configuration.html',
-//			controller: 'ConfigurationCtrl',
-			resolve:{
-				checkLogin: function( $rootScope,$http,config,$cookies,$window ) {
-					return checkLogin($rootScope,$http,config,$cookies,$window);
-				}
-			}
-		}).
-		when('/credits',{
-			templateUrl:'credits/Credits.html',
-			controller:'CreditsCtrl'
-		}).
-		when('/statistics',{
-			templateUrl:'statistics/Statistics.html',
-			controller:'StatisticsCtrl'
-		}).
-//		when('/statistics',{
-//		templateUrl:'statistics/Stats.html',
-//		controller: 'StatisticsCtrl',
-//		resolve:{
-//		checkLogin: function( $rootScope,$http,config,$cookies ) {
-//		var req = {
-//		method: 'GET',
-//		url: config.ADMIN_SERVICES_BASE_URL+config.TOKEN_VALIDATION,
-//		headers: {
-//		'Content-Type': 'application/json',
-//		'Authorization': "Bearer " +$rootScope.token	
-//		}
-//		};
-
-//		$http(req).then(function(value){
-//		//console.log(value);
-//		return true;
-//		}, function(value){
-//		//return false;
-//		if(value.status == 401){
-//		$rootScope.token=undefined;
-//		$cookies.remove('loggedin',{"path":"/"});
-//		window.location.assign('#metadata');
-//		}
-//		});
-//		}
-//		}
-//		}).
-		otherwise({
-			redirectTo:'/metadata'
-		});
-
-
-		function checkLogin($rootScope,$http,config,$cookies,$window){
-			var req = {
-					method: 'GET',
-					url: config.ADMIN_SERVICES_BASE_URL+config.TOKEN_VALIDATION,
-					headers: {
-						'Content-Type': 'application/json',
-						'Authorization': "Bearer " +$rootScope.token	
+			when('/about', {
+				templateUrl: 'about/About.html',
+				controller: 'AboutCtrl'
+			}).
+			when('/metadata', {
+				templateUrl: 'metadata/MetadataSearch.html',
+				controller: 'MetadataCtrl'
+			}).
+			when('/showDatasets', {
+				templateUrl: 'metadata/ShowMetadataResult2.html',
+				controller: 'DataSetCtrl'
+			}).
+			when('/showDatasetDetail', {
+				templateUrl: 'metadata/DatasetDetail.html',
+				controller: 'DatasetDetailCtrl'
+			}).
+			when('/dataset/:id', {
+				templateUrl: 'metadata/DatasetDetail.html',
+				controller: 'DatasetDetailCtrl'
+			}).
+			when('/datalets', {
+				templateUrl: 'datalets/DataletClient.html',
+				controller: 'DataletClientCtrl'
+			}).
+			when('/sparql', {
+				templateUrl: 'sparql/SparqlSearch.html',
+				controller: 'SparqlCtrl'
+			}).
+			when('/showSparqlResult', {
+				templateUrl: 'sparql/ShowSparqlQueryResult.html',
+				controller: 'ShowSparqlCtrl'
+			}).
+			when('/catalogues', {
+				templateUrl: 'catalogues/Catalogues.html',
+				controller: 'CataloguesController',
+				resolve: {
+					checkLogin: function($rootScope, $http, config, $cookies, $window) {
+						return checkLogin($rootScope, $http, config, $cookies, $window);
 					}
+				}
+			}).
+			when('/remotes', {
+				templateUrl: 'catalogues/RemoteCatalogues.html',
+				controller: 'RemoteCataloguesController',
+				resolve: {
+					checkLogin: function($rootScope, $http, config, $cookies) {
+						return checkLogin($rootScope, $http, config, $cookies);
+					}
+				}
+			}).
+			when('/viewCatalogues', {
+				templateUrl: 'catalogues/ViewCatalogues.html',
+				controller: 'ViewCataloguesController'
+			}).
+			when('/login', {
+				templateUrl: 'templateHtml/Login.html',
+				controller: 'LoginCtrl'
+			}).
+			when('/register', {
+				templateUrl: 'accounts/AddAccounts.html',
+				controller: 'AddAccountsCtrl'
+			}).
+			when('/catalogue', {
+				templateUrl: 'catalogues/Catalogue.html',
+				controller: 'CatalogueCtrl',
+				resolve: {
+					checkLogin: function($rootScope, $http, config, $cookies, $window) {
+						return checkLogin($rootScope, $http, config, $cookies, $window);
+					}
+				}
+			}).
+			when('/catalogue/:id', {
+				templateUrl: 'catalogues/Catalogue.html',
+				controller: 'CatalogueCtrl',
+				resolve: {
+					checkLogin: function($rootScope, $http, config, $cookies, $window) {
+						return checkLogin($rootScope, $http, config, $cookies, $window);
+					}
+				}
+			}).
+			when('/dataletsManagement', {
+				templateUrl: 'datalets/DataletAdmin.html',
+				controller: 'DataletAdminCtrl',
+				resolve: {
+					checkLogin: function($rootScope, $http, config, $cookies, $window) {
+						return checkLogin($rootScope, $http, config, $cookies, $window);
+					}
+				}
+			}).
+			when('/logs', {
+				templateUrl: 'logPage/Log.html',
+				controller: 'LogCtrl',
+				resolve: {
+					checkLogin: function($rootScope, $http, config, $cookies, $window) {
+						return checkLogin($rootScope, $http, config, $cookies, $window);
+					}
+				}
+			}).
+			when('/configuration', {
+				templateUrl: 'configuration/Configuration.html',
+				//			controller: 'ConfigurationCtrl',
+				resolve: {
+					checkLogin: function($rootScope, $http, config, $cookies, $window) {
+						return checkLogin($rootScope, $http, config, $cookies, $window);
+					}
+				}
+			}).
+			when('/credits', {
+				templateUrl: 'credits/Credits.html',
+				controller: 'CreditsCtrl'
+			}).
+			when('/statistics', {
+				templateUrl: 'statistics/Statistics.html',
+				controller: 'StatisticsCtrl'
+			}).
+
+
+
+
+			when('/preferred', {
+				templateUrl: 'dashboardmanager/PreferredDataset.html',
+				controller: 'PreferredDatasetCtrl'
+			}).
+			when('/datalet', {
+				templateUrl: 'dashboardmanager/DataletAdmin.html',
+				controller: 'DataletAdminCtrl'
+			}).
+			when('/profile', {
+				templateUrl: 'dashboardmanager/Profile.html',
+				//controller: 'ProfileCtrl'
+			}).
+
+
+
+			//		when('/statistics',{
+			//		templateUrl:'statistics/Stats.html',
+			//		controller: 'StatisticsCtrl',
+			//		resolve:{
+			//		checkLogin: function( $rootScope,$http,config,$cookies ) {
+			//		var req = {
+			//		method: 'GET',
+			//		url: config.ADMIN_SERVICES_BASE_URL+config.TOKEN_VALIDATION,
+			//		headers: {
+			//		'Content-Type': 'application/json',
+			//		'Authorization': "Bearer " +$rootScope.token	
+			//		}
+			//		};
+
+			//		$http(req).then(function(value){
+			//		//console.log(value);
+			//		return true;
+			//		}, function(value){
+			//		//return false;
+			//		if(value.status == 401){
+			//		$rootScope.token=undefined;
+			//		$cookies.remove('loggedin',{"path":"/"});
+			//		window.location.assign('#metadata');
+			//		}
+			//		});
+			//		}
+			//		}
+			//		}).
+			otherwise({
+				redirectTo: '/metadata'
+			});
+
+
+		function checkLogin($rootScope, $http, config, $cookies, $window) {
+			var req = {
+				method: 'GET',
+				url: config.ADMIN_SERVICES_BASE_URL + config.TOKEN_VALIDATION,
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': "Bearer " + $rootScope.token
+				}
 			};
 
-			$http(req).then(function(value){
+			$http(req).then(function(value) {
 				return true;
-			}, function(value){
-				if(value.status == 401){
-					$rootScope.loggedUsername=undefined;
-					$rootScope.token=undefined;
-					$cookies.remove('loggedin',{"path":"/"});
-					$cookies.remove('username',{"path":"/"});
+			}, function(value) {
+				if (value.status == 401) {
+					$rootScope.loggedUsername = undefined;
+					$rootScope.token = undefined;
+					$cookies.remove('loggedin', { "path": "/" });
+					$cookies.remove('username', { "path": "/" });
 					//$window.location.assign('#/metadata');
-					loginType=config["idra.authentication.method"];
-					
-					if (loginType === "FIWARE" || loginType === "KEYCLOAK"){
-						$cookies.put('destinationUrl', $window.location.hash,{"path":"/","secure":true});
+					loginType = config["idra.authentication.method"];
+
+					if (loginType === "FIWARE" || loginType === "KEYCLOAK") {
+						$cookies.put('destinationUrl', $window.location.hash, { "path": "/", "secure": true });
 						$('#loginform').submit();
-					}else{
+					} else {
 						$window.location.assign('#/login');
 					}
 				}
-				
+
 			});
 
 		}
 
-	}]);	
-	
-	app.controller('HeaderController',['$scope','$location','$rootScope','usSpinnerService','$cookies','config','$http','$window','$translate',function($scope,$location,$rootScope,usSpinnerService,$cookies,config,$http,$window,$translate){
-		
+	}]);
+
+	app.controller('HeaderController', ['$scope', '$location', '$rootScope', 'usSpinnerService', '$cookies', 'config', '$http', '$window', '$translate', function($scope, $location, $rootScope, usSpinnerService, $cookies, config, $http, $window, $translate) {
+
 		$scope.data = config.LANGUAGES_MAP.split(',');
 		$scope.languages = {};
-		
+
 		angular.forEach($scope.data, function(value, key) {
-				  $scope.languages[value.split(':')[0]] = value.split(':')[1];
-				})
-		  
-		$scope.flagIcon = function (langKey) { 
-			return "flag-icon-"+langKey;
+			$scope.languages[value.split(':')[0]] = value.split(':')[1];
+		})
+
+		$scope.flagIcon = function(langKey) {
+			return "flag-icon-" + langKey;
 		};
-		
-		$scope.isActive = function (viewLocation) { 
-//			$rootScope.closeAlert();
+
+		$scope.isActive = function(viewLocation) {
+			//			$rootScope.closeAlert();
 			return viewLocation === $location.path();
 		};
-		
-		
-		$scope.checkRemoteCatalogues = function () { 
+
+
+		$scope.chargePreferred = function() {
+			$rootScope.showAlert('info', "Charging preferences...");
+			console.log("Charging preferences...");
+		};
+
+		$scope.chargePersonalDatalet = function() {
+			$rootScope.showAlert('info', "Charging personal datalet...");
+			console.log("Charging personal datalet...");
+		};
+
+		$scope.openProfileDashboard = function() {
+			$rootScope.showAlert('info', "Charging dashboard profile page...");
+			console.log("Charging dashboard profile page...");
+		};
+
+		$scope.checkRemoteCatalogues = function() {
 			$rootScope.toDisable = false;
-			
-				var req = {
+
+			var req = {
 				method: 'GET',
 				url: config.ADMIN_SERVICES_BASE_URL + config.REMOTE_CAT_SERVICE,
 				headers: {
 					'Content-Type': 'application/json',
-					'Authorization': "Bearer "+$rootScope.token
+					'Authorization': "Bearer " + $rootScope.token
 				}
 
-		};
-		$http(req).then(function(value){
-			$scope.allRemCatalogues = value.data;	
-			$scope.displayedCollectionImport = [].concat($scope.allRemCatalogues);
-		
-			$scope.remoteCatalogues = $scope.displayedCollectionImport.length;
-			console.log("Numero di cataloghi remoti: "+$scope.remoteCatalogues);
-			$rootScope.toDisable = ($scope.remoteCatalogues==0)?true:false;
-			console.log("Disabilta Import cataloghi remoti? "+$rootScope.toDisable);
+			};
+			$http(req).then(function(value) {
+				$scope.allRemCatalogues = value.data;
+				$scope.displayedCollectionImport = [].concat($scope.allRemCatalogues);
 
-		});
-			
+				$scope.remoteCatalogues = $scope.displayedCollectionImport.length;
+				console.log("Numero di cataloghi remoti: " + $scope.remoteCatalogues);
+				$rootScope.toDisable = ($scope.remoteCatalogues == 0) ? true : false;
+				console.log("Disabilta Import cataloghi remoti? " + $rootScope.toDisable);
+
+			});
+
 		};
-		
-		
-//		var first=true;
-		$rootScope.$on("$locationChangeStart",function(event, next, current){
-			$scope.isOpen=false;
+
+
+		//		var first=true;
+		$rootScope.$on("$locationChangeStart", function(event, next, current) {
+			$scope.isOpen = false;
 		});
-		
-		$rootScope.dataletEnabled = (config.DATALET_ENABLED=='true')?true:false;
-		$rootScope.showUpdatePass = (config['idra.authentication.method']=='BASIC')?true:false;
-		
+
+		$rootScope.dataletEnabled = (config.DATALET_ENABLED == 'true') ? true : false;
+		$rootScope.showUpdatePass = (config['idra.authentication.method'] == 'BASIC') ? true : false;
+
 		$rootScope.token = $cookies.get('loggedin');
-		$rootScope.loggedUsername = $cookies.get('username');	
+		$rootScope.loggedUsername = $cookies.get('username');
 		var req = {
-				method: 'GET',
-				url: config.ADMIN_SERVICES_BASE_URL+config.TOKEN_VALIDATION,
-				headers: {
-					'Content-Type': 'application/json',
-					'Authorization': "Bearer " +$rootScope.token	
-				}
+			method: 'GET',
+			url: config.ADMIN_SERVICES_BASE_URL + config.TOKEN_VALIDATION,
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': "Bearer " + $rootScope.token
+			}
 		};
 
-		if($rootScope.token!=undefined){
-			$http(req).then(function(value){
-//				console.log(value);
+		if ($rootScope.token != undefined) {
+			$http(req).then(function(value) {
+				//				console.log(value);
 				return true;
-			}, function(value){
+			}, function(value) {
 				//return false;
-				if(value.status == 401){
-					$rootScope.loggedUsername=undefined;
-					$rootScope.token=undefined;
-					$cookies.remove('loggedin',{"path":"/"});
-					$cookies.remove('username',{"path":"/"});
+				if (value.status == 401) {
+					$rootScope.loggedUsername = undefined;
+					$rootScope.token = undefined;
+					$cookies.remove('loggedin', { "path": "/" });
+					$cookies.remove('username', { "path": "/" });
 					var tmp = $location.path();
-					if(tmp !='/login' && tmp !='/metadata' && tmp!='/sparql' && tmp!='/viewCatalogues' ){
+					if (tmp != '/login' && tmp != '/metadata' && tmp != '/sparql' && tmp != '/viewCatalogues') {
 						$window.location.assign('#/metadata');
 					}
 
@@ -422,53 +460,53 @@
 		$scope.isCollapsed = true;
 
 
-		$scope.isOpen=false;
+		$scope.isOpen = false;
 
 		$scope.toggleDropdown = function() {
-//			$event.preventDefault();
-//			$event.stopPropagation();
+			//			$event.preventDefault();
+			//			$event.stopPropagation();
 			$scope.isOpen = !$scope.isOpen;
 		};
 
-		$rootScope.idraVersion="";
+		$rootScope.idraVersion = "";
 		$http({
 			method: 'GET',
-			url: config.ADMIN_SERVICES_BASE_URL+config.VERSION,
+			url: config.ADMIN_SERVICES_BASE_URL + config.VERSION,
 			headers: {
-				'Content-Type': 'application/json'	
+				'Content-Type': 'application/json'
 			}
-		}).then(function(value){
-			$rootScope.idraVersion=value.data.idra_version;
+		}).then(function(value) {
+			$rootScope.idraVersion = value.data.idra_version;
 			//return true;
-		}, function(value){
+		}, function(value) {
 		});
-		
-		$scope.actLang = function () {
-			if($translate.use()==undefined)
+
+		$scope.actLang = function() {
+			if ($translate.use() == undefined)
 				return 'flag-icon-gb';
 			else
-				return 'flag-icon-'+$translate.use();
-		  };
-		
-		$scope.changeLanguage = function (langKey) {
-			$scope.isOpen=false;
-			$scope.activeLanguage=langKey;
-		    $translate.use(langKey);
-		  };
-		
+				return 'flag-icon-' + $translate.use();
+		};
+
+		$scope.changeLanguage = function(langKey) {
+			$scope.isOpen = false;
+			$scope.activeLanguage = langKey;
+			$translate.use(langKey);
+		};
+
 		let redirectUriAfterIDM = $cookies.get('destinationUrl');
-		if(redirectUriAfterIDM!=undefined){
-			$cookies.remove('destinationUrl',{"path":"/"});
+		if (redirectUriAfterIDM != undefined) {
+			$cookies.remove('destinationUrl', { "path": "/" });
 			$window.location.assign(redirectUriAfterIDM);
 		}
-		  
+
 	}]);
 
-	app.controller('ContentCTRL',['$scope','$rootScope','usSpinnerService',function($scope,$rootScope,usSpinnerService){
+	app.controller('ContentCTRL', ['$scope', '$rootScope', 'usSpinnerService', function($scope, $rootScope, usSpinnerService) {
 		/*SPINNER*/
 
 		$rootScope.startSpin = function() {
-//			console.log($scope.spinneractive);
+			//			console.log($scope.spinneractive);
 			if (!$scope.spinneractive) {
 				usSpinnerService.spin('spinner-1');
 			}
@@ -488,16 +526,16 @@
 
 		$rootScope.$on('us-spinner:stop', function(event, key) {
 			$scope.spinneractive = false;
-		});	      
+		});
 
 	}]);
 
-	app.controller('AlertCtrl',['$scope','$rootScope',function($scope,$rootScope){
+	app.controller('AlertCtrl', ['$scope', '$rootScope', function($scope, $rootScope) {
 
-		$rootScope.$on("$locationChangeStart",function(event, next, current){ 
+		$rootScope.$on("$locationChangeStart", function(event, next, current) {
 			$rootScope.closeAlert();
-			if(next.indexOf('metadata')<0 && next.indexOf('showDataset')<0){
-				$rootScope.previousContext=undefined;
+			if (next.indexOf('metadata') < 0 && next.indexOf('showDataset') < 0) {
+				$rootScope.previousContext = undefined;
 			}
 		});
 
@@ -505,11 +543,11 @@
 		$scope.alert = false;
 		$scope.alertType = 'danger';
 
-		$rootScope.closeAlert = function(){
+		$rootScope.closeAlert = function() {
 			$scope.alert = false;
 		}
 
-		$rootScope.showAlert = function(alert_class, alert_text){
+		$rootScope.showAlert = function(alert_class, alert_text) {
 
 			$scope.alert = true;
 			$scope.alertType = alert_class;
@@ -528,278 +566,437 @@
 	}]);
 
 
-	app.controller('LoginCtrl',['$scope','$rootScope','$http','md5','config','$cookies','$window',function($scope,$rootScope,$http,md5,config,$cookies,$window){
+	app.controller('LoginCtrl', ['$scope', '$rootScope', '$http', 'md5', 'config', '$cookies', '$window', function($scope, $rootScope, $http, md5, config, $cookies, $window) {
 
-		$scope.loginType=config["idra.authentication.method"];
-		
-		$scope.signIn = function(){
+		$scope.loginType = config["idra.authentication.method"];
+
+		$scope.signIn = function() {
 			if ($scope.loginType === "FIWARE" || $scope.loginType === "KEYCLOAK")
 				$('#loginform').submit();
 			else
 				$window.location.assign('#/login');
 		}
 
-		$scope.username='';
-		$scope.password='';
+		$scope.username = '';
+		$scope.password = '';
 
-		$scope.login = function(){
+		$scope.login = function() {
 
-			
+
 			var req = {
-					method: 'POST',
-					url: config.ADMIN_SERVICES_BASE_URL+config.LOGIN_SERVICE,
-					dataType: 'json',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					data:{					
-						'username':$scope.username,
-						'password':md5.createHash($scope.password)
-					}};			
+				method: 'POST',
+				url: config.DASHBOARD_MANAGER_BASE_URL + config.USER_SERVICE_BASE_URL + config.AUTH_SERVICE +
+				config.DASHBOARD_LOGIN_SERVICE + "?action=login", 
+				dataType: 'json',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				data: {
+					'username': $scope.username,
+					'password': md5.createHash($scope.password)
+				}
+			};
 
 			$rootScope.startSpin();
-			$http(req).then(function(value){
-				console.log("Login response: " + value);
+			$http(req).then(function(value) {
+				console.log("Login response: " + value.data);
+				if(value == null){
+					$rootScope.showAlert('danger', "Wrong username or password");
+				}
 				$rootScope.stopSpin();
-				$rootScope.token=value.data;
+				$rootScope.token = value.data;
+				$scope.temp = angular.fromJson(value);
+				$rootScope.id = $scope.temp.id;
 				$rootScope.loggedUsername = $scope.username;
-				$cookies.put('loggedin', value.data,{"path":"/","secure":true});
-				$cookies.put('username', $scope.username,{"path":"/","secure":true});
+				$cookies.put('loggedin', value.data, { "path": "/", "secure": true });
+				$cookies.put('username', $scope.username, { "path": "/", "secure": true });
 
 				$window.location.assign('#/metadata');
-			}, function(value){
-				//console.log(value);
-				$rootScope.loggedUsername=undefined;
-				$cookies.remove('loggedin',{"path":"/"});
-				$cookies.remove('username',{"path":"/"});
+			} /*, function(value) {
+				console.log(value);
+				$rootScope.loggedUsername = undefined;
+				$cookies.remove('loggedin', { "path": "/" });
+				$cookies.remove('username', { "path": "/" });
 				$rootScope.stopSpin();
-				$rootScope.showAlert('danger',value.data.userMessage);
-			});			
+				$rootScope.showAlert('danger', value.data.userMessage);
+			} */);
 		}
 
 	}]);
 
 
-	app.controller('LogoutCtrl',['$scope','$rootScope','$http','config','$cookies','$window',function($scope,$rootScope,$http,config,$cookies,$window){
+
+	app.controller('RegisterCtrl', ['$scope', '$rootScope', '$http', 'md5', 'config', '$cookies', '$window', function($scope, $rootScope, $http, md5, config, $cookies, $window) {
+
+		$scope.loginType = config["idra.authentication.method"];
+
+		$scope.signIn = function() {
+			if ($scope.loginType === "FIWARE" || $scope.loginType === "KEYCLOAK")
+				$('#loginform').submit();
+			else
+				$window.location.assign('#/register');
+		}
+
+		$scope.username = '';
+		$scope.password = '';
+
+		$scope.register = function() {
+			function validatePassword() {
+				var confirm_password = document.getElementById('cpassword').value;
+				var p = document.getElementById('password').value,
+					errors = [];
+				if (p.length < 8) {
+					errors.push("Your password must be at least 8 characters");
+				}
+				if (p.search(/[a-z]/i) < 0) {
+					errors.push("Your password must contain at least one letter.");
+				}
+				if (p.search(/[0-9]/) < 0) {
+					errors.push("Your password must contain at least one digit.");
+				}
+				if (p.search(/[a-z]/) < 0) {
+					errors.push("Your password must contain at least one lowercase letter.")
+				}
+				if (p.search(/[A-Z]/) < 0) {
+					errors.push("Your password must contain at least one uppercase letter.")
+				}
+				if (p !== confirm_password) {
+					errors.push("The password and the confirm password must match!")
+				}
+				if (errors.length > 0) {
+					alert(errors.join("\n"));
+					return false;
+				}
+				return true;
+			}
+			if (validatePassword()) {
+				var req = {
+					method: 'POST',
+					url: config.DASHBOARD_MANAGER_BASE_URL + config.USER_SERVICE_BASE_URL + config.ADD_USER,
+					dataType: 'json',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					data: {
+						'username': $scope.username,
+						'password': md5.createHash($scope.password)
+					}
+				};
+
+				$rootScope.startSpin();
+				$http(req).then(function(value) {
+					console.log("Login response: " + value);
+					$rootScope.stopSpin();
+					$rootScope.token = value.data;
+					$rootScope.loggedUsername = $scope.username;
+					$cookies.put('loggedin', value.data, { "path": "/", "secure": true });
+					$cookies.put('username', $scope.username, { "path": "/", "secure": true });
+
+					$window.location.assign('#/metadata');
+				}, function(value) {
+					//console.log(value);
+					$rootScope.loggedUsername = undefined;
+					$cookies.remove('loggedin', { "path": "/" });
+					$cookies.remove('username', { "path": "/" });
+					$rootScope.stopSpin();
+					$rootScope.showAlert('danger', value.data.userMessage);
+				});
+			}
+		}
+
+	}]);
 
 
-		
-		
-		$scope.logout = function(){
+	app.controller('PreferencesCtrl', ['$scope', '$rootScope', '$http', 'md5', 'config', '$cookies', '$window', function($scope, $rootScope, $http, md5, config, $cookies, $window) {
 
-			loginType=config["idra.authentication.method"];
+		$scope.togglePreferences = function($event, dataset) {
+			if ($event.target.checked) {
+				$scope.insertPreference(dataset);
+			} else {
+				$scope.deletePreference(dataset);
+			}
 			
-			if(loginType.toUpperCase()=='BASIC'){
-			
+		}
+
+		$scope.insertPreference = function(dataset) {
+			console.log("Inserted " + dataset.id)
+			console.log("with nodeId " + dataset.nodeID)
+			var req = {
+				method: 'POST',
+				url: config.DASHBOARD_MANAGER_BASE_URL + config.USER_SERVICE_BASE_URL + config.PREFERRED + config.ADD_PREFERRED + "?username=" + $rootScope.loggedUsername,
+				dataType: 'json',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				data: {
+					'userdId': 0,
+					'datasetId': dataset.id,
+					'datasetNodeId' : dataset.nodeID
+				}
+			}
+			$http(req).then(function() {
+				$rootScope.showAlert('info', "Dataset has been added to favorites!");
+			}
+			)
+		}
+
+		$scope.deletePreference = function(dataset) {
+			var req = {
+				method: 'DELETE',
+				url: config.DASHBOARD_MANAGER_BASE_URL + config.USER_SERVICE_BASE_URL + config.PREFERRED + config.DELETE_PREFERRED + "?username=" + $rootScope.loggedUsername,
+				dataType: 'json',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				data: {
+					'userdId': 0,
+					'datasetId': dataset.id
+				}
+			}
+			$http(req).then(function() {
+				$rootScope.showAlert('danger', "Dataset has been deleted from favorites!");
+			})
+		}
+
+		$scope.chargeChecked = function(dataset) {
+			var req = {
+				method: 'GET',
+				url: config.DASHBOARD_MANAGER_BASE_URL + config.USER_SERVICE_BASE_URL + config.PREFERRED + config.IS_PREFERRED + "?username=" + $rootScope.loggedUsername,
+				dataType: 'json',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				data: {
+					'userdId': 0,
+					'datasetId': dataset
+				}
+			}
+
+			return false;
+		}
+	}]);
+
+
+	app.controller('LogoutCtrl', ['$scope', '$rootScope', '$http', 'config', '$cookies', '$window', function($scope, $rootScope, $http, config, $cookies, $window) {
+
+		$scope.logout = function() {
+
+			loginType = config["idra.authentication.method"];
+
+			if (loginType.toUpperCase() == 'BASIC') {
+
 				var token = $rootScope.token;
 				var username = $rootScope.loggedUsername;
-	
+
 				var req = {
-						method: 'POST',
-						url: config.ADMIN_SERVICES_BASE_URL+config.LOGOUT_SERVICE,
-						headers: {
-							'Content-Type': 'application/json',
-							'Authorization': "Bearer " +$rootScope.token
-						},
-						data:{
-							'username': username,
-							'token':token
-						}};			
-	
+					method: 'POST',
+					url: config.DASHBOARD_MANAGER_BASE_URL + config.USER_SERVICE_BASE_URL + config.AUTH_SERVICE +
+				config.DASHBOARD_LOGIN_SERVICE + "?action=logout",
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': "Bearer " + $rootScope.token
+					},
+					data: {
+						'username': username,
+						'token': token
+					}
+				};
+
 				$rootScope.startSpin();
-				$http(req).then(function(value){
+				$http(req).then(function(value) {
 					console.log(value);
 					$rootScope.stopSpin();
 					$rootScope.loggedUsername = undefined;
-					$rootScope.token=undefined;
-					$cookies.remove('loggedin',{"path":"/"});
-					$cookies.remove('username',{"path":"/"});
+					$rootScope.token = undefined;
+					$cookies.remove('loggedin', { "path": "/" });
+					$cookies.remove('username', { "path": "/" });
 					$window.location.assign('#/metadata');
-				}, function(value){
+				}, function(value) {
 					console.log(value);
 					$rootScope.stopSpin();
 					$rootScope.loggedUsername = undefined;
-					$rootScope.token=undefined;
-					$cookies.remove('loggedin',{"path":"/"});
-					$cookies.remove('username',{"path":"/"});
-	//				$rootScope.showAlert('danger',value.data.userMessage);
+					$rootScope.token = undefined;
+					$cookies.remove('loggedin', { "path": "/" });
+					$cookies.remove('username', { "path": "/" });
+					//				$rootScope.showAlert('danger',value.data.userMessage);
 					$window.location.assign('#/metadata');
 				});
-			}else{
+			} else {
 				$rootScope.stopSpin();
 				$rootScope.loggedUsername = undefined;
-				$rootScope.token=undefined;
-				$cookies.remove('loggedin',{"path":"/"});
-				$cookies.remove('username',{"path":"/"});
+				$rootScope.token = undefined;
+				$cookies.remove('loggedin', { "path": "/" });
+				$cookies.remove('username', { "path": "/" });
 				$window.location.assign(config["idm.logout.callback"]);
 			}
 		}
 
-		$scope.idmlogout = function(){
+		$scope.idmlogout = function() {
 
 			var token = $rootScope.token;
 			var username = $rootScope.loggedUsername;
 
 			var req = {
-					method: 'GET',
-					url: "logout",
-					headers: {
-						'Content-Type': 'application/json',
-						'Authorization': "Bearer " +$rootScope.token
-					}};			
+				method: 'GET',
+				url: "logout",
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': "Bearer " + $rootScope.token
+				}
+			};
 
 			$rootScope.startSpin();
-			$http(req).then(function(value){
+			$http(req).then(function(value) {
 				$rootScope.stopSpin();
 				$rootScope.loggedUsername = undefined;
-				$rootScope.token=undefined;
-				$cookies.remove('loggedin',{"path":"/"});
-				$cookies.remove('username',{"path":"/"});
+				$rootScope.token = undefined;
+				$cookies.remove('loggedin', { "path": "/" });
+				$cookies.remove('username', { "path": "/" });
 				$window.location.assign('#/metadata');
-			}, 
-			function(value){
-				$rootScope.stopSpin();
-				$rootScope.loggedUsername = undefined;
-				$rootScope.token=undefined;
-				$cookies.remove('loggedin',{"path":"/"});
-				$cookies.remove('username',{"path":"/"});
-				$window.location.assign('#/metadata');
-			});
+			},
+				function(value) {
+					$rootScope.stopSpin();
+					$rootScope.loggedUsername = undefined;
+					$rootScope.token = undefined;
+					$cookies.remove('loggedin', { "path": "/" });
+					$cookies.remove('username', { "path": "/" });
+					$window.location.assign('#/metadata');
+				});
 
 		}
 
 
 	}]);
 
-	app.controller('ModalInstanceCtrl',function ($scope, $modalInstance, items,title,message,selected,type,federationLevel) {
+	app.controller('ModalInstanceCtrl', function($scope, $modalInstance, items, title, message, selected, type, federationLevel) {
 
 		//NB: devi passare anche quelli selezionati in precedenza
 
 		$scope.type = type;
-		$scope.federationLevel = federationLevel; 
+		$scope.federationLevel = federationLevel;
 		//console.log($scope.federationLevel);
-		$scope.title = title;	
+		$scope.title = title;
 		$scope.nonSelectedItems = [];
-		$scope.textAlertModal=message;
+		$scope.textAlertModal = message;
 
-		$scope.allItems=items.slice();
+		$scope.allItems = items.slice();
 
-		$scope.selectedItems=selected.slice();
+		$scope.selectedItems = selected.slice();
 
-		for(i=0; i<$scope.allItems.length; i++){
-			if($scope.selectedItems.indexOf($scope.allItems[i]) < 0 )
+		for (i = 0; i < $scope.allItems.length; i++) {
+			if ($scope.selectedItems.indexOf($scope.allItems[i]) < 0)
 				$scope.nonSelectedItems.push($scope.allItems[i]);
 		}
 
-		$scope.addItem = function(item){		
+		$scope.addItem = function(item) {
 			var index = $scope.nonSelectedItems.indexOf(item);
 			$scope.selectedItems.push($scope.nonSelectedItems[index]);
-			$scope.nonSelectedItems.splice(index,1);
+			$scope.nonSelectedItems.splice(index, 1);
 		}
 
-		$scope.removeItem = function(item){
+		$scope.removeItem = function(item) {
 
 			var index = $scope.selectedItems.indexOf(item);
 			$scope.nonSelectedItems.push($scope.selectedItems[index]);
-			$scope.selectedItems.splice(index,1);
+			$scope.selectedItems.splice(index, 1);
 		}
 
-		$scope.alertTypeModal='danger';
+		$scope.alertTypeModal = 'danger';
 		$scope.alertModal = false;
 
 
-		$scope.closeAlertModal = function(){
-			$scope.alertModal=false;
+		$scope.closeAlertModal = function() {
+			$scope.alertModal = false;
 		}
 
-		$scope.showAlertModal = function(){
-			$scope.alertModal=true;
+		$scope.showAlertModal = function() {
+			$scope.alertModal = true;
 		}
 
 
-		$scope.selected ="";
-		$scope.no_selected ="";
+		$scope.selected = "";
+		$scope.no_selected = "";
 
 		$scope.disable = false;
 
-		$scope.selectAll = function(){
+		$scope.selectAll = function() {
 
-			if($scope.selectedItems.length != $scope.allItems.length){
+			if ($scope.selectedItems.length != $scope.allItems.length) {
 
 				$scope.selectedItems = $scope.allItems.slice();
-				$scope.nonSelectedItems=[];
-			}else{
+				$scope.nonSelectedItems = [];
+			} else {
 
 				$scope.selectedItems = [];
-				$scope.nonSelectedItems=$scope.allItems.slice();
+				$scope.nonSelectedItems = $scope.allItems.slice();
 			}
 		}
 
-		$scope.ok = function () {
-			if($scope.selectedItems.length==0){
+		$scope.ok = function() {
+			if ($scope.selectedItems.length == 0) {
 				$scope.showAlertModal();
-			}else{
+			} else {
 				$modalInstance.close($scope.selectedItems);
 			}
 		};
 
-		$scope.cancel = function () {
+		$scope.cancel = function() {
 			$modalInstance.dismiss('cancel');
 		};
 	});
 
-	app.controller('ModalEurovocCtrl',function ($scope, $modalInstance, sourceLanguages,targetLanguages) {
+	app.controller('ModalEurovocCtrl', function($scope, $modalInstance, sourceLanguages, targetLanguages) {
 
 		//NB: devi passare anche quelli selezionati in precedenza
 
 		$scope.sourceLanguages = sourceLanguages.slice();
 		$scope.targetLanguages = targetLanguages.slice();
 
-		$scope.inputLan={"value":"None","text":"None"};
-		$scope.outputLan=[];
+		$scope.inputLan = { "value": "None", "text": "None" };
+		$scope.outputLan = [];
 
-		$scope.alertTypeModal='danger';
+		$scope.alertTypeModal = 'danger';
 		$scope.alertModal = false;
-		$scope.textAlertModal="";
+		$scope.textAlertModal = "";
 
-		$scope.closeAlertModal = function(){
-			$scope.alertModal=false;
+		$scope.closeAlertModal = function() {
+			$scope.alertModal = false;
 		}
 
-		$scope.showAlertModal = function(text){
-			$scope.textAlertModal=text;
-			$scope.alertModal=true;
+		$scope.showAlertModal = function(text) {
+			$scope.textAlertModal = text;
+			$scope.alertModal = true;
 		}
 
 
-		$scope.inputLanguage ="";
-		$scope.outputLanguage ="";
-		$scope.selectedItems=[];
+		$scope.inputLanguage = "";
+		$scope.outputLanguage = "";
+		$scope.selectedItems = [];
 		$scope.disable = false;
 
-		$scope.ok = function () {
-			if($scope.inputLan != ""){
-				$scope.selectedItems.sourceLanguage=$scope.inputLan;
+		$scope.ok = function() {
+			if ($scope.inputLan != "") {
+				$scope.selectedItems.sourceLanguage = $scope.inputLan;
 			}
-			if($scope.outputLan.length!=0){
-				$scope.selectedItems.targetLanguage=$scope.outputLan;
+			if ($scope.outputLan.length != 0) {
+				$scope.selectedItems.targetLanguage = $scope.outputLan;
 			}
 
-			if($scope.outputLan.length!=0 && $scope.inputLan == ""){
+			if ($scope.outputLan.length != 0 && $scope.inputLan == "") {
 				$scope.showAlertModal("Please select a Source Language or remove any Target Language!");
-			}else if($scope.inputLan != "" && $scope.outputLan.length==0){
+			} else if ($scope.inputLan != "" && $scope.outputLan.length == 0) {
 				$scope.showAlertModal("All Target Language will be used by default!");
 				$modalInstance.close($scope.selectedItems);
-			}else{
+			} else {
 				$modalInstance.close($scope.selectedItems);
 			}
 		};
 
-		$scope.cancel = function () {
+		$scope.cancel = function() {
 			$modalInstance.dismiss('cancel');
 		};
 
-		$scope.toggle = function (item, list) {
+		$scope.toggle = function(item, list) {
 			var idx = list.indexOf(item);
 			if (idx > -1) {
 				list.splice(idx, 1);
@@ -809,13 +1006,13 @@
 			}
 		};
 
-		$scope.exists = function (item, list) {
+		$scope.exists = function(item, list) {
 			return list.indexOf(item) > -1;
 		};
 
 		$scope.isIndeterminate = function() {
 			return ($scope.outputLan.length !== 0 &&
-					$scope.outputLan.length !== $scope.targetLanguages.length);
+				$scope.outputLan.length !== $scope.targetLanguages.length);
 		};
 
 		$scope.isChecked = function() {
@@ -833,61 +1030,61 @@
 
 	});
 
-	app.controller('ModalInstanceCtrlSingle',function ($scope, $modalInstance, items,title,message,selected,type,federationLevel) {
+	app.controller('ModalInstanceCtrlSingle', function($scope, $modalInstance, items, title, message, selected, type, federationLevel) {
 
 		//NB: devi passare anche quelli selezionati in precedenza
 
 		$scope.type = type;
-		$scope.federationLevel = federationLevel; 
-//		console.log($scope.federationLevel);
-		$scope.title = title;	
+		$scope.federationLevel = federationLevel;
+		//		console.log($scope.federationLevel);
+		$scope.title = title;
 		$scope.nonSelectedItems = [];
-		$scope.textAlertModal=message;
+		$scope.textAlertModal = message;
 
-		$scope.allItems=items.slice();
+		$scope.allItems = items.slice();
 
-//		console.log($scope.allItems);
+		//		console.log($scope.allItems);
 
-		$scope.selectedItems=selected.slice();
+		$scope.selectedItems = selected.slice();
 
-//		console.log($scope.selectedItems);
+		//		console.log($scope.selectedItems);
 
-		for(i=0; i<$scope.allItems.length; i++){
-			if($scope.selectedItems.indexOf($scope.allItems[i]) < 0 )
+		for (i = 0; i < $scope.allItems.length; i++) {
+			if ($scope.selectedItems.indexOf($scope.allItems[i]) < 0)
 				$scope.nonSelectedItems.push($scope.allItems[i]);
 		}
 
-		$scope.alertTypeModal='danger';
+		$scope.alertTypeModal = 'danger';
 		$scope.alertModal = false;
 
 
-		$scope.closeAlertModal = function(){
-			$scope.alertModal=false;
+		$scope.closeAlertModal = function() {
+			$scope.alertModal = false;
 		}
 
-		$scope.showAlertModal = function(){
-			$scope.alertModal=true;
+		$scope.showAlertModal = function() {
+			$scope.alertModal = true;
 		}
 
 
-		$scope.selected ="";
-		$scope.no_selected ="";
+		$scope.selected = "";
+		$scope.no_selected = "";
 
 		$scope.disable = false;
 
-		$scope.ok = function () {
-			if($scope.selectedItems.length==0){
+		$scope.ok = function() {
+			if ($scope.selectedItems.length == 0) {
 				$scope.showAlertModal();
-			}else{
+			} else {
 				$modalInstance.close($scope.selectedItems);
 			}
 		};
 
-		$scope.cancel = function () {
+		$scope.cancel = function() {
 			$modalInstance.dismiss('cancel');
 		};
 
-		$scope.toggle = function (item, list) {
+		$scope.toggle = function(item, list) {
 			var idx = list.indexOf(item);
 			if (idx > -1) {
 				list.splice(idx, 1);
@@ -897,13 +1094,13 @@
 			}
 		};
 
-		$scope.exists = function (item, list) {
+		$scope.exists = function(item, list) {
 			return list.indexOf(item) > -1;
 		};
 
 		$scope.isIndeterminate = function() {
 			return ($scope.selectedItems.length !== 0 &&
-					$scope.selectedItems.length !== $scope.allItems.length);
+				$scope.selectedItems.length !== $scope.allItems.length);
 		};
 
 		$scope.isChecked = function() {
@@ -920,41 +1117,41 @@
 
 	});
 
-	app.controller('ModalDatalet',function ($scope, $modalInstance,$sce,config,fileURL) {
+	app.controller('ModalDatalet', function($scope, $modalInstance, $sce, config, fileURL) {
 
 		$scope.trustSrc = function(src) {
 			return $sce.trustAsResourceUrl(src);
 		}
-		$scope.iframeURL = $sce.trustAsResourceUrl(config.DATALET_URL+"?url="+fileURL);
+		$scope.iframeURL = $sce.trustAsResourceUrl(config.DATALET_URL + "?url=" + fileURL);
 
 	});
 
-	app.controller('ModalDataletAdmin',function ($scope, $modalInstance,config,datalet,$sce) {
+	app.controller('ModalDataletAdmin', function($scope, $modalInstance, config, datalet, $sce) {
 
 		console.log("add");
 		$scope.datalet = datalet;
 		$scope.datalet.showHtml = $sce.trustAsHtml(datalet.datalet_html);
 
-		$scope.cancel = function () {
+		$scope.cancel = function() {
 			$modalInstance.dismiss('cancel');
 		};
 
 	});
-	
-	app.controller('FooterCtrl', ['$scope','$rootScope',function($scope,$rootScope){
-        $rootScope.$watch('idraVersion',function(){
-             $scope.version = $rootScope.idraVersion;
-            })
-           
-        }]);
-   
 
-    app.component('footerDetail', {
-          templateUrl: 'templateHtml/FooterTemplate.html',
-          bindings: {
-            version: '='
-          }
-    });
-	
+	app.controller('FooterCtrl', ['$scope', '$rootScope', function($scope, $rootScope) {
+		$rootScope.$watch('idraVersion', function() {
+			$scope.version = $rootScope.idraVersion;
+		})
 
-})();	
+	}]);
+
+
+	app.component('footerDetail', {
+		templateUrl: 'templateHtml/FooterTemplate.html',
+		bindings: {
+			version: '='
+		}
+	});
+
+
+})();

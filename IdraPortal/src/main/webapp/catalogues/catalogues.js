@@ -506,7 +506,7 @@ angular.module("IdraPlatform").controller('CataloguesController',["$scope","$htt
 
 	$scope.downloadZip = false;
 	
-	$scope.downloadDump = function(node){
+	$scope.Dump = function(node){
 
 		var download_url = config.ADMIN_SERVICES_BASE_URL+config.NODES_DUMP_DOWNLOAD;
 		var filename = "Federated Catalogues Dump";

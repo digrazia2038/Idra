@@ -9,6 +9,7 @@
 	"helpMenuManual":"Manual",
 	"login": "LOGIN",
 	"login1": "Login",
+	"register": "Register",
 	"logout": "LOGOUT",
 	"statistics":"Statistics",
 	"credits":"Credits",
@@ -203,6 +204,21 @@
 	"level2": "LEVEL_2",
 	"level3": "LEVEL_3",
 	"administration": "Administration",
+
+	
+	"dashboard": "Dashboard",
+	
+	"preferredDataset": "Preferred dataset",
+	
+	"personalDatalet": "Personal datalet",
+	
+	"userProfile": "User profile",
+	"generalInfo": "General",
+	"security": "Security",
+	"userPreferences": "Preferences",
+	"others": "Others",
+	
+	
 	"manageData": "Manage Catalogues",
 	"manageDatalet": "Manage Datalet",
 	"manageConf": "Manage Configurations",
